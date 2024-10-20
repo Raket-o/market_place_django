@@ -23,23 +23,32 @@ services:
 #  django:
 #    depends_on:
 #      - postgres_db
-#    build: market_place
+#    build: .
 #    container_name: django
 #    command: bash -c "
 #      python manage.py migrate
-#      && python manage.py 1_add_group_users
-#      && python manage.py 2_add_permissions
-#      && python manage.py 3_add_group_permissions
-#      && python manage.py 4_add_superuser
-#      && gunicorn django_crm.wsgi:application --bind "0.0.0.0:8080" --workers 3
+#      && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
 #      "
-#    volumes: [ './django_crm/uploads/:/app/uploads']
+##    volumes: [ './django_crm/uploads/:/app/uploads']
 #    restart: unless-stopped
 #    ports:
 #      - "8080:8080"
 #    networks:
 #      advertising_services_network:
 #        ipv4_address: 192.168.55.5
+
+#  localxpose:
+#    depends_on:
+#      - django
+#    image: localxpose/localxpose:latest # read more here https://hub.docker.com/r/localxpose/localxpose
+#    # forward any incoming requests to traefik container
+#    command: tunnel -r http --reserved-domain "*.example.com" --to 0.0.0.0:8080
+#    environment:
+#      # Get your access token from your dashboard here https://localxpose.io/dashboard/access
+#      ACCESS_TOKEN: pYTRGmfzMTnlKy7eJ1UDB3Hl8XPAHXwGn86fUD3I
+#    networks:
+#      advertising_services_network:
+#        ipv4_address: 192.168.55.6
 
 networks:
   advertising_services_network:

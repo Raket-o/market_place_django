@@ -162,11 +162,25 @@ DEBUG = os.getenv('DEBUG') != 'False'
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "0.0.0.0",
+    "192.168.1.125",
+    # "172.17.255.255",
+    # "10.0.2.255",
+    # "10.0.2.2",
+    # "10.0.2.15",
+    # "192.168.1.1",
+    "192.168.55.5",
+    "6j0uquwzzo.loclx.io",
 ]
 
 INTERNAL_IPS = [
     "127.0.0.1",
     "0.0.0.0",
+    # "192.168.1.125",
+    # "172.17.255.255",
+    # "10.0.2.255",
+    # "10.0.2.2",
+    # "10.0.2.15",
+    # "192.168.1.1",
 ]
 
 if DEBUG:
@@ -196,7 +210,7 @@ INSTALLED_APPS = [
     # "rest_framework.authtoken",
     # "djoser",
 
-    "product.apps.ProductConfig"
+    "shop.apps.ShopConfig"
 
     # "authorization.apps.AuthorizationConfig",
     # "customer_statistics.apps.CustomerStatisticsConfig",

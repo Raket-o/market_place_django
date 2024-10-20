@@ -23,12 +23,15 @@
 
 
 from django.conf import settings
-
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # from rest_framework.routers import DefaultRouter
+
+from .views import (
+    index,
+)
 
 # from services.views import ServiceViewSet
 # from advertising_companies.views import AdvertisingCompanyViewSet
@@ -44,7 +47,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # routers.register("contracts", ContractViewSet, basename='contracts')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    # path('', include('shop.urls')),
+    path("", index, name="index"),
+
     # path('', include('authorization.urls')),
     # path('statistics/', include('customer_statistics.urls')),
     # path('services/', include('services.urls')),

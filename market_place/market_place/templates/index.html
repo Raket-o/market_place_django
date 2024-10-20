@@ -1,0 +1,114 @@
+<!doctype html>
+{% load static %}
+<!--[if lt IE 7 ]> <html class="ie ie6 ie-lt10 ie-lt9 ie-lt8 ie-lt7 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7 ie-lt10 ie-lt9 ie-lt8 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 ie-lt10 ie-lt9 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 ie-lt10 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/left-nav-style.css' %}">
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+    <div class="container">
+        <!--
+        Скрытый checkbox, отвечающий за переключение панели, должен быть в верхней части документа, лучше сразу после тега `<body>`
+
+        `id` атрибут предназначен для связки с атрибутом `for` тега <label>
+
+        Атрибут `hidden` указывает состояние «скрытый» у текущего элемента
+        -->
+        <input type="checkbox" id="nav-toggle" hidden>
+        <!--
+        Выдвижную панель размещаете ниже
+        флажка (checkbox), но не обязательно
+        непосредственно после него, например
+        можно и в конце страницы
+        -->
+        <nav class="nav">
+            <!--
+        Метка с именем `id` чекбокса в `for` атрибуте
+        Символ Unicode 'TRIGRAM FOR HEAVEN' (U+2630)
+        Пустой атрибут `onclick` используем для исправления бага в iOS < 6.0
+        См: http://timpietrusky.com/advanced-checkbox-hack
+        -->
+            <label for="nav-toggle" class="nav-toggle" onclick></label>
+            <!--
+        Здесь размещаете любую разметку,
+        если это меню, то скорее всего неупорядоченный список <ul>
+        -->
+            <h2 style="color: white; font-weight: bold">
+                Каталог
+            </h2>
+            {% for category, group in category_dict.items %}
+                <ul>
+                    <a href="category/{{ category }}" style="color: white; font-weight: bold; font-size: 1.2em;">{{ category }}</a>
+                    {% for group in group%}
+{#                        <ul>#}
+                        <li><a href="category/{{ category }}/group/{{ group }}">{{ group }}</a>
+{#                        </ul>#}
+                    {% endfor %}
+                </ul>
+                <br>
+            {% endfor %}
+
+
+{#            <ul>#}
+{#                <li><a href="#1">Один</a>#}
+{#                <li><a href="#2">Два</a>#}
+{#                <li><a href="#3">Три</a>#}
+{#                <li><a href="#4">Четыре</a>#}
+{#                <li><a href="#5">Пять</a>#}
+{#                <li><a href="#6">Шесть</a>#}
+{#                <li><a href="#7">Семь</a>#}
+{#            </ul>#}
+            <br>
+            <a style="color: white" href="#loguot">Выйти</a>
+        </nav>
+        <!--
+        Маска (затемнение) основного контента при включенной панели
+        по-умолчанию данная фишка не используется, если оно вам надо,
+            просто расккоментируйте div-контейнер ниже
+
+        <div class="mask-content"></div>
+            -->
+
+        <!--
+        Далее размещаем любую разметку,
+        много слов, картинки и т.д...
+        -->
+        <main role="main">
+            <article>
+                <header>
+                </header>
+                <section>
+                    <div style="text-align: center; font-weight: bold">
+                        {% block name_page %}
+                        {% endblock %}
+                        {% block context %}
+                        {% endblock %}
+                    </div>
+                </section>
+                <hr>
+                <footer>
+                </footer>
+            </article>
+        </main>
+    </div>
+</body>
+
+</html>
