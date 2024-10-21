@@ -408,3 +408,20 @@ body {
     transition: opacity .5s, visibility .5s;
 }
 */
+
+.catalog_nav {
+    color: white;
+    font-weight: bold;
+}
+
+.category_group_nav {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.text_nav {
+    display:block;
+    color: white;
+    margin-bottom: 10px;
+}

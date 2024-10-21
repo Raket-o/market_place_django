@@ -19,96 +19,71 @@
     <![endif]-->
     <title>
         {% block title %}
+            {% if title %}
+                {{ title }}
+            {% endif %}
         {% endblock %}
     </title>
 </head>
 
 <body>
-    <div class="container">
-        <!--
-        Скрытый checkbox, отвечающий за переключение панели, должен быть в верхней части документа, лучше сразу после тега `<body>`
-
-        `id` атрибут предназначен для связки с атрибутом `for` тега <label>
-
-        Атрибут `hidden` указывает состояние «скрытый» у текущего элемента
-        -->
+{#    <div class="container">#}
         <input type="checkbox" id="nav-toggle" hidden>
-        <!--
-        Выдвижную панель размещаете ниже
-        флажка (checkbox), но не обязательно
-        непосредственно после него, например
-        можно и в конце страницы
-        -->
         <nav class="nav">
-            <!--
-        Метка с именем `id` чекбокса в `for` атрибуте
-        Символ Unicode 'TRIGRAM FOR HEAVEN' (U+2630)
-        Пустой атрибут `onclick` используем для исправления бага в iOS < 6.0
-        См: http://timpietrusky.com/advanced-checkbox-hack
-        -->
             <label for="nav-toggle" class="nav-toggle" onclick></label>
-            <!--
-        Здесь размещаете любую разметку,
-        если это меню, то скорее всего неупорядоченный список <ul>
-        -->
-            <h2 style="color: white; font-weight: bold">
+            <h2 class="catalog_nav">
                 Каталог
             </h2>
             {% for category, group in category_dict.items %}
                 <ul>
-                    <a href="category/{{ category }}" style="color: white; font-weight: bold; font-size: 1.2em;">{{ category }}</a>
+                    <a class="category_group_nav" href="categories/{{ category }}">{{ category }}</a>
                     {% for group in group%}
-{#                        <ul>#}
-                        <li><a href="category/{{ category }}/group/{{ group }}">{{ group }}</a>
-{#                        </ul>#}
+                        <li><a href="categories/{{ category }}/groups/{{ group }}">{{ group }}</a>
                     {% endfor %}
                 </ul>
                 <br>
             {% endfor %}
 
-
-{#            <ul>#}
-{#                <li><a href="#1">Один</a>#}
-{#                <li><a href="#2">Два</a>#}
-{#                <li><a href="#3">Три</a>#}
-{#                <li><a href="#4">Четыре</a>#}
-{#                <li><a href="#5">Пять</a>#}
-{#                <li><a href="#6">Шесть</a>#}
-{#                <li><a href="#7">Семь</a>#}
-{#            </ul>#}
-            <br>
-            <a style="color: white" href="#loguot">Выйти</a>
+            <a class="text_nav" href="#basket">Корзина</a>
+            <a class="text_nav" href="#profile">Профиль</a>
+            <a class="text_nav" href="#loguot">Выйти</a>
         </nav>
-        <!--
-        Маска (затемнение) основного контента при включенной панели
-        по-умолчанию данная фишка не используется, если оно вам надо,
-            просто расккоментируйте div-контейнер ниже
 
-        <div class="mask-content"></div>
-            -->
-
-        <!--
-        Далее размещаем любую разметку,
-        много слов, картинки и т.д...
-        -->
+{#        <div class="mask-content">#}
         <main role="main">
             <article>
                 <header>
                 </header>
-                <section>
-                    <div style="text-align: center; font-weight: bold">
-                        {% block name_page %}
-                        {% endblock %}
-                        {% block context %}
+{#                <section>#}
+                    <div class="indent_container">
+                        <p class="text_name_page">
+                            {{ name_page }}
+                            {% block name_page %}
+                            {% endblock %}
+                        </p>
+
+                        {% block content %}
+                                {% for product in top_products %}
+                                    <a class="list_product" href="products/{{ product.id }}">
+                                        <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}" >
+
+                                        <div class="info_product">
+                                            {{ product.name }}
+                                            <br>
+                                            {{ product.price }} руб.
+                                        </div>
+                                    </a>
+                                {% endfor %}
                         {% endblock %}
                     </div>
-                </section>
+{#                </section>#}
                 <hr>
                 <footer>
                 </footer>
             </article>
         </main>
-    </div>
+{#    </div>#}
+{#    </div>#}
 </body>
 
 </html>

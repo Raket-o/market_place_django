@@ -51,6 +51,8 @@ urlpatterns = [
     # path('', include('shop.urls')),
     path("", index, name="index"),
 
+    path('products/', include('shop.urls')),
+
     # path('', include('authorization.urls')),
     # path('statistics/', include('customer_statistics.urls')),
     # path('services/', include('services.urls')),

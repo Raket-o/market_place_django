@@ -169,7 +169,7 @@ ALLOWED_HOSTS = [
     # "10.0.2.15",
     # "192.168.1.1",
     "192.168.55.5",
-    "6j0uquwzzo.loclx.io",
+    "iln5oqgxme.loclx.io",
 ]
 
 INTERNAL_IPS = [
