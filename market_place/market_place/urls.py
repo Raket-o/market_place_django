@@ -29,9 +29,9 @@ from django.urls import include, path, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # from rest_framework.routers import DefaultRouter
 
-from .views import (
-    index,
-)
+# from .views import (
+#     index,
+# )
 
 # from services.views import ServiceViewSet
 # from advertising_companies.views import AdvertisingCompanyViewSet
@@ -48,10 +48,10 @@ from .views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('', include('shop.urls')),
-    path("", index, name="index"),
-
-    path('products/', include('shop.urls')),
+    # path("", index, name="index"),
+    # path("products/", include('shop.urls')),
+    # path("", index, name="index"),
+    path("", include('shop.urls')),
 
     # path('', include('authorization.urls')),
     # path('statistics/', include('customer_statistics.urls')),

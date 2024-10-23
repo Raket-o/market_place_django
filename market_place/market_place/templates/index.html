@@ -19,9 +19,6 @@
     <![endif]-->
     <title>
         {% block title %}
-            {% if title %}
-                {{ title }}
-            {% endif %}
         {% endblock %}
     </title>
 </head>
@@ -36,9 +33,10 @@
             </h2>
             {% for category, group in category_dict.items %}
                 <ul>
-                    <a class="category_group_nav" href="categories/{{ category }}">{{ category }}</a>
+{#                    <a class="category_group_nav" href="categories/{{ category.name_for_url }}/">{{ category }}</a>#}
+                    <div class="catalog_nav">{{ category }}</div>
                     {% for group in group%}
-                        <li><a href="categories/{{ category }}/groups/{{ group }}">{{ group }}</a>
+                        <li><a href="categories/{{ category.name_for_url }}/groups/{{ group.name_for_url }}">{{ group }}</a>
                     {% endfor %}
                 </ul>
                 <br>
@@ -57,23 +55,11 @@
 {#                <section>#}
                     <div class="indent_container">
                         <p class="text_name_page">
-                            {{ name_page }}
                             {% block name_page %}
                             {% endblock %}
                         </p>
 
                         {% block content %}
-                                {% for product in top_products %}
-                                    <a class="list_product" href="products/{{ product.id }}">
-                                        <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}" >
-
-                                        <div class="info_product">
-                                            {{ product.name }}
-                                            <br>
-                                            {{ product.price }} руб.
-                                        </div>
-                                    </a>
-                                {% endfor %}
                         {% endblock %}
                     </div>
 {#                </section>#}

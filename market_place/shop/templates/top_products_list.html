@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    Хиты продаж
+{% endblock %}
+
+{% block name_page %}
+    Хиты продаж
+{% endblock %}
+
+{% block content %}
+    {% for product in object_list %}
+        <a class="list_product" href="products/{{ product.id }}">
+            <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}" >
+
+            <div class="info_product">
+                {{ product.name }}
+                <br>
+                {{ product.price }} руб.
+            </div>
+        </a>
+    {% endfor %}
+{% endblock %}

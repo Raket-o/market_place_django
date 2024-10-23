@@ -24,8 +24,6 @@ def index(request):
         .order_by("-rating")[:10]
     )
 
-    # print(queryset_top_products)
-
     data = {
         "title": "Хиты продаж",
         "name_page": "Хиты продаж",

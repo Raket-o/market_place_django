@@ -9,6 +9,8 @@ class Category(models.Model):
         ordering = "id", "name"
 
     name = models.CharField(max_length=50, blank=False, unique=True)
+    # name_for_url = models.CharField(max_length=50, blank=False, unique=True)
+    name_for_url = models.CharField(max_length=50, blank=False)
 
     def __repr__(self):
         # return self.__repr__()
@@ -25,6 +27,7 @@ class Group(models.Model):
         ordering = "id", "name"
 
     name = models.CharField(max_length=50, blank=False)
+    name_for_url = models.CharField(max_length=50, blank=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="names")
 
     # def __repr__(self):
