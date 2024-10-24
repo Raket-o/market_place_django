@@ -31,19 +31,21 @@
             <h2 class="catalog_nav">
                 Каталог
             </h2>
-            <a class="catalog_nav" href="{% url 'shop:index' %}">На главную</a>
+            <p>
+                <a class="catalog_nav" href="{% url 'shop:index' %}">На главную</a>
+            </p>
             {% for category, group in category_dict.items %}
                 <ul>
                     <div class="catalog_nav">{{ category }}</div>
                     <div class="catalog_nav">{{ group.name }}</div>
                     {% for group in group%}
-                        <li><a href={% url 'shop:group_product_list_view' category=category group=group%}>{{ group }}</a>
+                        <li><a href={% url 'shop:group_product_list_view' category=category group=group %}>{{ group }}</a>
                     {% endfor %}
                 </ul>
                 <br>
             {% endfor %}
 
-            <a class="text_nav" href="#basket">Корзина</a>
+            <a class="text_nav" href="{% url 'basket:basket' %}">Корзина</a>
             <a class="text_nav" href="#profile">Профиль</a>
             <a class="text_nav" href="#loguot">Выйти</a>
         </nav>

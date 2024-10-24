@@ -210,8 +210,8 @@ INSTALLED_APPS = [
     # "rest_framework.authtoken",
     # "djoser",
 
-    "shop.apps.ShopConfig"
-    "basket.apps.BasketConfig"
+    "basket.apps.BasketConfig",
+    "shop.apps.ShopConfig",
 
     # "authorization.apps.AuthorizationConfig",
     # "customer_statistics.apps.CustomerStatisticsConfig",

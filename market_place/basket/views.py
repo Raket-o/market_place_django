@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from django.views.generic import (
+    # CreateView,
+    # DeleteView,
+    # DetailView,
+    ListView,
+    # UpdateView,
+)
 
-# Create your views here.
+from .models import Basket
+from shop.views import CATER_GROUP_NAV
+
+
+class BasketListView(ListView):
+    template_name = "basket_products_list.html"
+    # queryset = Basket.objects.filter(id=1)
+    queryset = Basket.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ListView, self).get_context_data(**kwargs)
+        context.update(CATER_GROUP_NAV)
+        context.update({"name_page": "Корзина"})
+        return context

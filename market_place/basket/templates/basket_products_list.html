@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block name_page %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block content %}
+    {% for basket in object_list %}
+        <a href={% url 'shop:product_details' pk=basket.product.id%}>
+            <div class="list_basket_product">
+                <div class="img_product">
+                    <img src="{{ basket.product.photo.url }}" width="65" alt="{{ basket.product.photo.name }}" >
+                </div>
+
+                <div class="info_product">
+                    <div>
+                        {{ basket.product.name }}
+                    </div>
+                    <div>
+                        Цвет {{ basket.product.color }}
+                    </div>
+                    <div>
+                        Размер {{ basket.product.size }}
+                    </div>
+
+                    <div class="container_price_del_btn">
+                        <div>
+                            {{ basket.product.price }} руб.
+                        </div>
+                        <div class="pos_del_btn">
+                            <a class="del_btn" onclick href={% url 'shop:index' %}></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+
+    <div class="flex">
+        <a href="javascript:history.back()">
+            <button class="btn btn-secondary">Вернуться</button>
+        </a>
+
+        <a class="margin-left_btn" href="#Arrange">
+            <button class="btn btn-primary">Оформить</button>
+        </a>
+    </div>
+{% endblock %}

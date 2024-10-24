@@ -70,7 +70,7 @@ CATER_GROUP_NAV = {"category_dict": category_dict}
 
 class TopSellerProductListView(ListView):
     model = Product
-    template_name = "products_list.html"
+    template_name = "shop_products_list.html"
     queryset = (
         Product.objects
         .filter(archived=False)
@@ -87,14 +87,7 @@ class TopSellerProductListView(ListView):
 
 class GroupProductListView(ListView):
     model = Product
-    # template_name = 'group_products_list.html'
-    template_name = "products_list.html"
-
-    # queryset = (
-    #     Product.objects
-    #     # .filter(group=1)
-    #     .prefetch_related("group")
-    # )
+    template_name = "shop_products_list.html"
 
     def get(self, request, *args, **kwargs):
         self.category = kwargs["category"]
@@ -136,8 +129,6 @@ class GroupProductListView(ListView):
             cursor.execute(sql_query)
             results = cursor.fetchall()
 
-        print("=+"*20, self.category)
-
         class Photo:
             def __init__(self, name: str, url: str):
                 self.name = name
@@ -167,7 +158,7 @@ class GroupProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product_details.html'
+    template_name = "shop_product_details.html"
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
