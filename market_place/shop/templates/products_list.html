@@ -1,16 +1,16 @@
 {% extends 'index.html' %}
 
 {% block title %}
-    Хиты продаж
+    {{ name_page.title }}
 {% endblock %}
 
 {% block name_page %}
-    Хиты продаж
+    {{ name_page.title }}
 {% endblock %}
 
 {% block content %}
     {% for product in object_list %}
-        <a class="list_product" href="products/{{ product.id }}">
+        <a class="list_product" href={% url 'shop:product_details' pk=product.id%}>
             <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}" >
 
             <div class="info_product">
@@ -20,4 +20,10 @@
             </div>
         </a>
     {% endfor %}
+
+{#    <div class="flex">#}
+{#        <a href="javascript:history.back()">#}
+{#            <button class="btn btn-secondary">Вернуться</button>#}
+{#        </a>#}
+{#    </div>#}
 {% endblock %}

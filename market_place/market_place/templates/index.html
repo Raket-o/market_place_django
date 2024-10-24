@@ -31,12 +31,13 @@
             <h2 class="catalog_nav">
                 Каталог
             </h2>
+            <a class="catalog_nav" href="{% url 'shop:index' %}">На главную</a>
             {% for category, group in category_dict.items %}
                 <ul>
-{#                    <a class="category_group_nav" href="categories/{{ category.name_for_url }}/">{{ category }}</a>#}
                     <div class="catalog_nav">{{ category }}</div>
+                    <div class="catalog_nav">{{ group.name }}</div>
                     {% for group in group%}
-                        <li><a href="categories/{{ category.name_for_url }}/groups/{{ group.name_for_url }}">{{ group }}</a>
+                        <li><a href={% url 'shop:group_product_list_view' category=category group=group%}>{{ group }}</a>
                     {% endfor %}
                 </ul>
                 <br>

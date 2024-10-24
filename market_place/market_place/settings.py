@@ -169,9 +169,9 @@ ALLOWED_HOSTS = [
     # "10.0.2.15",
     # "192.168.1.1",
     "192.168.55.5",
-    "iln5oqgxme.loclx.io",
+    "uiex29l8rz.loclx.io",
 ]
-
+# juugnato
 INTERNAL_IPS = [
     "127.0.0.1",
     "0.0.0.0",
@@ -211,6 +211,7 @@ INSTALLED_APPS = [
     # "djoser",
 
     "shop.apps.ShopConfig"
+    "basket.apps.BasketConfig"
 
     # "authorization.apps.AuthorizationConfig",
     # "customer_statistics.apps.CustomerStatisticsConfig",
