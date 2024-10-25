@@ -308,3 +308,21 @@ a {
     margin-left: 50px;
 }
 
+.icon_rub {
+    content: '\20BD';
+}
+
+input, textarea, select {
+    /*font-size: 100%;*/
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 18px;
+}
+
+
+
+
+

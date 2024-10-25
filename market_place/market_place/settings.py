@@ -205,11 +205,12 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
     "whitenoise.runserver_nostatic",
+    # "phonenumber_field",
     # "rest_framework",
     # "django_filters",
     # "rest_framework.authtoken",
     # "djoser",
-
+    "authorization.apps.AuthorizationConfig",
     "basket.apps.BasketConfig",
     "shop.apps.ShopConfig",
 
@@ -302,7 +303,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+# LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-RU"
 
 TIME_ZONE = "UTC"
 
@@ -348,7 +350,7 @@ REST_FRAMEWORK = {
 
 # LOGIN_REDIRECT_URL
 
-LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
+LOGIN_REDIRECT_URL = reverse_lazy("shop:top_seller_product")
 LOGIN_URL = reverse_lazy("authorization:login")
 
 

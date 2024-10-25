@@ -29,10 +29,10 @@
 
                     <div class="container_price_del_btn">
                         <div>
-                            {{ basket.product.price }} руб.
+                            {{ basket.product.price }} &#8381;
                         </div>
                         <div class="pos_del_btn">
-                            <a class="del_btn" onclick href={% url 'shop:index' %}></a>
+                            <a class="del_btn" onclick href={% url 'shop:top_seller_product' %}></a>
                         </div>
                     </div>
 
@@ -41,6 +41,9 @@
         </a>
     {% endfor %}
 
+    Итог: {{ total_price }} &#8381;
+    <br>
+    <br>
     <div class="flex">
         <a href="javascript:history.back()">
             <button class="btn btn-secondary">Вернуться</button>
@@ -50,4 +53,7 @@
             <button class="btn btn-primary">Оформить</button>
         </a>
     </div>
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

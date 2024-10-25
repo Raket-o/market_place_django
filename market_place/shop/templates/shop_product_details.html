@@ -16,7 +16,7 @@
         <br>
         Рейтинг:<em> {{ object.rating }} </em>
         <br>
-        Цена:<em> {{ object.price }} </em>
+        Цена:<em> {{ object.price }} &#8381;</em>
     </div>
 
     <div class="flex">
@@ -28,4 +28,19 @@
             <button class="btn btn-primary">Купить</button>
         </a>
     </div>
+{% endblock %}
+
+
+{% block footer %}
+{#    <div class="flex">#}
+{#        <a href="javascript:history.back()">#}
+{#            <button class="btn btn-secondary">Вернуться</button>#}
+{#        </a>#}
+{##}
+{#        {% if user.is_authenticated %}#}
+{#        <a class="margin-left_btn" href="#GOTO_BASKET">#}
+{#            <button class="btn btn-primary">Купить</button>#}
+{#        </a>#}
+{#        {% endif %}#}
+{#    </div>#}
 {% endblock %}

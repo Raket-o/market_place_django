@@ -1,0 +1,33 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+    User #{{ object.pk }}
+{% endblock %}
+
+{% block body %}
+        <h1> User #{{ object.pk }} details</h1>
+        <p>
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.profile.avatar.name }}">
+            {% else %}
+                The avatar is missing
+            {% endif %}
+        </p>
+        <p>User name: {{ user.username }}</p>
+        <p>First name: {%  firstof user.first_name 'No first name' %}</p>
+        <p>Last name: {%  firstof user.last_name 'No last name' %}</p>
+        <p>Date joined: {%  firstof user.date_joined 'No visit' %}</p>
+
+        {% if request.user.is_staff or perms.myauth.change_profile or request.user.id == user.id%}
+            {% if user.profile %}
+                <p>Bio: {{ user.profile.bio }}</p>
+                <a href="{% url 'myauth:user_update' pk=user.profile.pk %}">Change avatar</a>
+            {% else %}
+                Profile not created
+            {% endif %}
+        {% endif %}
+
+    <div>
+        <a href="{% url 'myauth:users_list' %}">Back to users list</a>
+    </div>
+{% endblock %}
