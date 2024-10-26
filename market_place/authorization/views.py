@@ -58,7 +58,16 @@ class LogoutView(View):
         return redirect("shop:top_seller_product")
 
 
-class UserDetailsView(DetailView):
+class UserDetailsView(UserPassesTestMixin, DetailView):
+    def test_func(self):
+        user = self.request.user
+        return (
+                user.is_superuser
+                or user.is_staff
+        #         # or user.has_perm("myauth.change_profile")
+                or user.id == self.get_object().pk
+        )
+
     template_name = "authorization/profile_details.html"
     queryset = (
         User.objects
@@ -72,7 +81,17 @@ class UserDetailsView(DetailView):
         return context
 
 
-class UserUserNameUpdateView(UpdateView):
+class UserUserNameUpdateView(UserPassesTestMixin, UpdateView):
+    def test_func(self):
+        user = self.request.user
+        return (
+                user.is_superuser
+                or user.is_staff
+                # or user.has_perm("myauth.change_profile")
+                or user.id == self.get_object().pk
+
+        )
+
     model = User
     fields = 'username',
     template_name = "authorization/profile_update_form.html"
@@ -90,6 +109,15 @@ class UserUserNameUpdateView(UpdateView):
 
 
 class ProfileDeliveryAddressUpdateView(UserUserNameUpdateView):
+    def test_func(self):
+        user = self.request.user
+        return (
+                user.is_superuser
+                or user.is_staff
+                # or user.has_perm("myauth.change_profile")
+                or user.id == self.get_object().user.profile.user.pk
+        )
+
     model = Profile
     fields = 'delivery_address',
 
@@ -100,8 +128,7 @@ class ProfileDeliveryAddressUpdateView(UserUserNameUpdateView):
         )
 
 
-class ProfilePhoneUpdateView(UserUserNameUpdateView):
-    model = Profile
+class ProfilePhoneUpdateView(ProfileDeliveryAddressUpdateView):
     fields = 'phone_number',
 
     def get_success_url(self):
