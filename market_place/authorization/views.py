@@ -1,13 +1,3 @@
-# from django.contrib.auth import logout
-# from django.shortcuts import redirect
-# from django.views.generic.base import View
-#
-#
-# class LogoutView(View):
-#     def get(self, request):
-#         logout(request)
-#         return redirect("authorization:login")
-
 from django.contrib.auth.decorators import login_not_required
 from django.utils.decorators import method_decorator
 
@@ -54,14 +44,6 @@ class RegisterView(CreateView):
         return context
 
 
-# class CustomLogoutView(LogoutView):
-#     template_name = 'authorization/login.html'
-#
-#     def get_default_redirect_url(self):
-#         # return resolve_url('authorization:login')
-#         return resolve_url('shop:top_seller_product')
-
-# @method_decorator(login_not_required, name="dispatch")
 class CustomLoginView(LoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,45 +58,12 @@ class LogoutView(View):
         return redirect("shop:top_seller_product")
 
 
-# def set_cookie_view(request: HttpRequest) -> HttpResponse:
-#     response = HttpResponse("Cookie set")
-#     response.set_cookie(key="new_val", value="Ya tut", max_age=60)
-#     return response
-#
-#
-# def get_cookie_view(request: HttpRequest) -> HttpResponse:
-#     value = request.COOKIES.get("new_val", "default_value")
-#     return HttpResponse(f"Cookie value: {value!r}")
-#
-#
-# def set_session_view(request: HttpRequest) -> HttpResponse:
-#     request.session["custom_field"] = "new_value"
-#     return HttpResponse("Session set!")
-#
-#
-# def get_session_view(request: HttpRequest) -> HttpResponse:
-#     value = request.session.get("custom_field", "default_value")
-#     return HttpResponse(f"Session value: {value!r}")
-
-
-class UsersListView(ListView):
-    template_name = "users_list.html"
-    queryset = (
-        User.objects
-        .select_related("profile")
-    )
-
-
 class UserDetailsView(DetailView):
-    template_name = "user_details.html"
+    template_name = "authorization/profile_details.html"
     queryset = (
         User.objects
         .select_related("profile")
     )
-
-
-class AboutMeDetailView(TemplateView):
-    template_name = "authorization/about_me.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,23 +72,55 @@ class AboutMeDetailView(TemplateView):
         return context
 
 
-# class ProfileUpdateView(UserPassesTestMixin, UpdateView):
-class ProfileUpdateView(UpdateView):
-    # def test_func(self):
-    #     user = self.request.user
-    #     return (
-    #             user.is_superuser
-    #             or user.is_staff
-    #             or user.has_perm("authorization.change_profile")
-    #             or user.id == self.get_object().user.profile.user.pk
-    #     )
+class UserUserNameUpdateView(UpdateView):
+    model = User
+    fields = 'username',
+    template_name = "authorization/profile_update_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(CATER_GROUP_NAV)
+        return context
+
+    def get_success_url(self):
+        return reverse(
+            viewname="authorization:user_details",
+            kwargs={"pk": self.object.pk},
+        )
+
+
+class ProfileDeliveryAddressUpdateView(UserUserNameUpdateView):
     model = Profile
-    fields = "delivery_address"
-    template_name_suffix = "_update_form"
+    fields = 'delivery_address',
 
     def get_success_url(self):
         return reverse(
             viewname="authorization:user_details",
             kwargs={"pk": self.object.user.pk},
         )
+
+
+class ProfilePhoneUpdateView(UserUserNameUpdateView):
+    model = Profile
+    fields = 'phone_number',
+
+    def get_success_url(self):
+        return reverse(
+            viewname="authorization:user_details",
+            kwargs={"pk": self.object.user.pk},
+        )
+
+
+class UserFirstNameUpdateView(UserUserNameUpdateView):
+    model = User
+    fields = 'first_name',
+
+
+class UserLastNameUpdateView(UserUserNameUpdateView):
+    model = User
+    fields = 'last_name',
+
+
+class UserEmailUpdateView(UserUserNameUpdateView):
+    model = User
+    fields = 'email',

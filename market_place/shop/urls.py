@@ -25,7 +25,7 @@ urlpatterns = [
     path("", TopSellerProductListView.as_view(), name='top_seller_product'),
     path("products/<int:pk>/", ProductDetailView.as_view(), name='product_details'),
     # re_path(r'^categories/', GroupProductListView.as_view(), name='group_product_list_view'),
-    path("categories/<str:category>/groups/<str:group>/", GroupProductListView.as_view(), name='group_product_list_view'),
+    path("categories?category=<str:category>&groups=<str:group>/", GroupProductListView.as_view(), name='group_product_list_view'),
 
     # path(
     #     "products/<int:pk>/",

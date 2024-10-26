@@ -1,7 +1,6 @@
 asgiref==3.8.1
 Django==5.1.2
 django-debug-toolbar==4.4.6
-django-phonenumber-field==8.0.0
 gunicorn==23.0.0
 packaging==24.1
 phonenumbers==8.13.48

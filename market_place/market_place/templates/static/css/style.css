@@ -322,7 +322,19 @@ input, textarea, select {
     border-radius: 18px;
 }
 
-
+.profile_info a{
+    display: block;
+    /*flex-direction: row;*/
+    /*align-items: center;*/
+    align-content: center;
+    text-align: center;
+    /*height: 55px;*/
+    height: auto;
+    /*padding-left: 15px;*/
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
 
 
 

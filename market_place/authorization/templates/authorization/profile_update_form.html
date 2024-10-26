@@ -1,18 +1,21 @@
-{% extends 'myauth/base.html' %}
+{% extends 'index.html' %}
 
 {% block title %}
-    Update avatar
+    Изменение данных
 {% endblock %}
 
-{% block body %}
-    <h1>Update avatar:</h1>
+{% block content %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Update</button>
-    </form>
-    <div>
         <br>
-        <a href="{% url 'myauth:user_details' pk=profile.user.pk %}">Back to user info</a>
-    </div>
+        <div class="flex">
+
+             <a class="margin-left_btn" href="{% url 'authorization:user_details' pk=user.pk %}">
+                <button type="button" class="btn btn-secondary">Назад</button>
+            </a>
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
 {% endblock %}

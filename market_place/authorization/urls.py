@@ -26,14 +26,21 @@ from .views import (
     # set_cookie_view,
     # get_session_view,
     # set_session_view,
-    AboutMeDetailView,
+    # AboutMeDetailView,
     CustomLoginView,
     # CustomLogoutView,
     LogoutView,
-    ProfileUpdateView,
+    # ProfileUpdateView,
+    ProfileDeliveryAddressUpdateView,
+    ProfilePhoneUpdateView,
     RegisterView,
+    # UserUpdateView,
+    UserEmailUpdateView,
+    UserFirstNameUpdateView,
+    UserLastNameUpdateView,
+    UserUserNameUpdateView,
     UserDetailsView,
-    UsersListView,
+    # UsersListView,
 )
 
 app_name = "authorization"
@@ -50,9 +57,15 @@ urlpatterns = [
         name="login"
     ),
     path("logout/", LogoutView.as_view(), name="logout"),
-    path("my-profile/", AboutMeDetailView.as_view(), name="my-profile"),
-    # path("users/", UsersListView.as_view(), name="users_list"),
-    # path("users/<int:pk>/profile/", UserDetailsView.as_view(), name="user_details"),
-    # path("users/<int:pk>/update/", ProfileUpdateView.as_view(), name="user_update"),
-
+    path("users/<int:pk>/", UserDetailsView.as_view(), name="user_details"),
+    path(
+        "users/<int:pk>?tab=profile&field=delivery-address/",
+        ProfileDeliveryAddressUpdateView.as_view(),
+         name="profile_delivery_address_update"
+    ),
+    path("users/<int:pk>?tab=profile&field=phone/", ProfilePhoneUpdateView.as_view(), name="profile_phone_update"),
+    path("users/<int:pk>?tab=user&field=username/", UserUserNameUpdateView.as_view(), name="user_username_update"),
+    path("users/<int:pk>?tab=user&field=first-name/", UserFirstNameUpdateView.as_view(), name="user_first_name_update"),
+    path("users/<int:pk>?tab=user&field=last-name/", UserLastNameUpdateView.as_view(), name="user_last_name_update"),
+    path("users/<int:pk>?tab=user&field=email/", UserEmailUpdateView.as_view(), name="user_email_update"),
 ]
