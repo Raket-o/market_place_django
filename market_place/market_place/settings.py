@@ -142,7 +142,7 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
-from env_data import db_host, db_name, db_password, db_port, db_user, debug, log_level
+from env_data import db_host, db_name, db_password, db_port, db_user, debug, log_level, url_app
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -169,9 +169,9 @@ ALLOWED_HOSTS = [
     # "10.0.2.15",
     # "192.168.1.1",
     "192.168.55.5",
-    "uiex29l8rz.loclx.io",
+    url_app,
 ]
-# juugnato
+
 INTERNAL_IPS = [
     "127.0.0.1",
     "0.0.0.0",
@@ -181,7 +181,10 @@ INTERNAL_IPS = [
     # "10.0.2.2",
     # "10.0.2.15",
     # "192.168.1.1",
+    # "czjcaf9can.loclx.io",
 ]
+
+CSRF_TRUSTED_ORIGINS = [f'https://{url_app}']
 
 if DEBUG:
     import socket
