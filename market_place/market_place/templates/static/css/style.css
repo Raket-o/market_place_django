@@ -195,15 +195,19 @@ a {
 
 .list_basket_product {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    /*display:grid;*/
+    /*flex-direction: row;*/
+    /*flex-wrap: wrap;*/
+    /*flex-wrap: nowrap;*/
     align-items: center;
     margin-bottom: 5px;
     border-radius: 10px;
     background-color: white;
     /*flex-direction: column;*/
-    height: 90px;
-    width: auto;
+    /*height: 90px;*/
+    /*height: auto;*/
+    /*width: auto;*/
 
 }
 
@@ -219,10 +223,24 @@ a {
 
 .info_product {
     /*display: block;*/
+    display: flex;
+    height: auto;
     text-align: left;
     margin-left: 7px;
     /*color: black;*/
+}
 
+.info_product a {
+    cursor: pointer;
+     /*размер шрифта */
+    font-size: 1.2em;
+    line-height: 1;
+    /* всегда поверх других элементов страницы */
+    /*z-index: 2001;*/
+    /* анимируем цвет текста при наведении */
+    -webkit-transition: color .25s ease-in-out;
+    -moz-transition: color .25s ease-in-out;
+    transition: color .25s ease-in-out;
 }
 
 .detail_product {
@@ -257,28 +275,32 @@ a {
 }
 
 .del_btn {
+    /*margin-left: 70px;*/
+    /*height: 50px;*/
+
     /* абсолютно позиционируем */
     /*position: absolute;*/
     /* относительно левого края панели */
-    /*left: 320px;*/
+    /*left: 260px;*/
     /* отступ от верхнего края панели */
     /*top: 1em;*/
+    /*top: 5em;*/
     /* внутренние отступы */
     /*padding: 0.5em;*/
     /* определяем цвет фона переключателя
      * чаще вчего в соответствии с цветом фона панели
     */
-    /*background: inherit;*/
+    background: inherit;
     /* цвет текста */
-    /*color: #dadada;*/
+    color: #dadada;
     /* вид курсора */
     cursor: pointer;
-     /*размер шрифта */
+    /* !*размер шрифта *!*/
     font-size: 1.2em;
     line-height: 1;
-    /* всегда поверх других элементов страницы */
+    /*!* всегда поверх других элементов страницы *!*/
     /*z-index: 2001;*/
-    /* анимируем цвет текста при наведении */
+    /*!* анимируем цвет текста при наведении *!*/
     -webkit-transition: color .25s ease-in-out;
     -moz-transition: color .25s ease-in-out;
     transition: color .25s ease-in-out;
@@ -306,9 +328,9 @@ a {
     justify-content: space-between;
 }
 
-.pos_del_btn {
-    margin-left: 70px;
-}
+/*.pos_del_btn {*/
+/*    margin-left: 70px;*/
+/*}*/
 
 .icon_rub {
     content: '\20BD';
@@ -332,6 +354,3 @@ input, textarea, select {
     border-radius: 10px;
     background-color: white;
 }
-
-
-

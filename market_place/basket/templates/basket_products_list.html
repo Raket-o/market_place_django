@@ -10,37 +10,34 @@
 
 {% block content %}
     {% for basket in object_list %}
-        <a href={% url 'shop:product_details' pk=basket.product.id%}>
-            <div class="list_basket_product">
-                <div class="img_product">
-                    <img src="{{ basket.product.photo.url }}" width="65" alt="{{ basket.product.photo.name }}" >
-                </div>
+        <div class="list_basket_product">
+{#            <a style="display:flex; background-color: white; border-radius: 18px;" href={% url 'shop:product_details' pk=basket.product.id%}>#}
+            <a class="list_basket_product" href={% url 'shop:product_details' pk=basket.product.id%}>
+{#                <img style="margin-left: 10px;" src="{{ basket.product.photo.url }}" width="65" alt="{{ basket.product.photo.name }}">#}
+                <img class="img_product" src="{{ basket.product.photo.url }}" width="65" alt="{{ basket.product.photo.name }}">
 
-                <div class="info_product">
+                <div style="margin-left: 10px;">
+{#                <div>#}
                     <div>
                         {{ basket.product.name }}
                     </div>
                     <div>
-                        Цвет {{ basket.product.color }}
+                        Цвет: {{ basket.product.color }}
                     </div>
                     <div>
-                        Размер {{ basket.product.size }}
+                       Размер: {{ basket.product.size }}
                     </div>
-
-                    <div class="container_price_del_btn">
-                        <div>
-                            {{ basket.product.price }} &#8381;
-                        </div>
-                        <div class="pos_del_btn">
-                            <a class="del_btn" onclick href={% url 'shop:top_seller_product' %}></a>
-                        </div>
+                    <div>
+                        {{ basket.product.price }}
                     </div>
-
                 </div>
-            </div>
-        </a>
-    {% endfor %}
 
+                <div style="margin-right: 10px;">
+                    <a class="del_btn" onclick href={% url 'shop:top_seller_product' %}></a>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
     Итог: {{ total_price }} &#8381;
     <br>
     <br>

@@ -77,6 +77,7 @@ class TopSellerProductListView(ListView):
         .prefetch_related("group")
         .order_by("-rating")[:10]
     )
+    # print(queryset)
 
     def get_context_data(self, **kwargs):
         context = super(ListView, self).get_context_data(**kwargs)

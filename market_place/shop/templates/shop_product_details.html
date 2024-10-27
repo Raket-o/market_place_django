@@ -24,8 +24,8 @@
             <button class="btn btn-secondary">Вернуться</button>
         </a>
 
-        <a class="margin-left_btn" href="#GOTO_BASKET">
-            <button class="btn btn-primary">Купить</button>
+        <a class="margin-left_btn" href="{% url 'basket:add_product_to_basket' user_id=user.pk product_id=product.id%}">
+            <button type="submit" class="btn btn-primary">Купить</button>
         </a>
     </div>
 {% endblock %}
