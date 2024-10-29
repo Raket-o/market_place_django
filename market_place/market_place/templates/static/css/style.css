@@ -179,6 +179,12 @@ a {
     /*background-color: transparent;*/
 }
 
+.btn-del {
+    border: 2px solid #c80000;
+    color: #7e0000 !important;
+    /*background-color: transparent;*/
+}
+
 .indent_container {
     margin-left: 10px;
 }

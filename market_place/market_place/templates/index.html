@@ -46,9 +46,12 @@
                 <br>
             {% endfor %}
 
+            <div class="text_nav">
+                <a href="{% url 'basket:basket' %}">Корзина</a>
+            </div>
+
             {% if user.is_authenticated %}
                 <div class="text_nav">
-                    <a href="{% url 'basket:basket' %}">Корзина</a>
                     <a href="{% url 'authorization:user_details' pk=user.pk %}">Профиль</a>
                     <a href="{% url 'authorization:logout' %}">Выйти</a>
                 </div>

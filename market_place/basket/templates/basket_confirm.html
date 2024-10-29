@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block name_page %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block content %}
+
+{#    <div style="margin-right: 10px;">#}
+{#         <form method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#             <a class="margin-left_btn" type="submit">#}
+{#                <button class="btn btn-primary">Да</button>#}
+{#            </a>#}
+{#                     <label class="del_btn" onclick type="submit"></label>#}
+{#            <a class="del_btn" type="submit" onclick href={% url 'basket:confirm' %}></a>#}
+{#        </form>#}
+{#                    <a class="del_btn" type="submit" onclick href={% url 'shop:top_seller_product' %}></a>#}
+{#    </div>#}
+
+    <br>
+    <br>
+    <div class="flex">
+         <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+{#             <a class="margin-left_btn" type="submit">#}
+
+{#            </a>#}
+{#                     <label class="del_btn" onclick type="submit"></label>#}
+{#            <a class="btn btn-del" type="submit" onclick>Да</a>#}
+             <button class="btn btn-del">Да</button>
+
+        </form>
+
+{#        <a href="javascript:history.back()">#}
+        <a href="{% url 'basket:basket' %}">
+            <button class="btn btn-primary">Нет</button>
+        </a>
+
+{#        <a class="margin-left_btn" href="#Arrange">#}
+{#            <button class="btn btn-primary">Оформить</button>#}
+{#        </a>#}
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

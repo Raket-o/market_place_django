@@ -1,12 +1,14 @@
+from django.http import HttpRequest, HttpResponse
+
 from django.db import connection
-# from django.shortcuts import render
 
 # from django.contrib.auth.mixins import UserPassesTestMixin
 # from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework.filters import OrderingFilter, SearchFilter
 # from rest_framework import viewsets
-# from django.shortcuts import reverse
+from django.shortcuts import redirect, reverse, render, get_object_or_404
 # from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -77,6 +79,7 @@ class TopSellerProductListView(ListView):
         .prefetch_related("group")
         .order_by("-rating")[:10]
     )
+
     # print(queryset)
 
     def get_context_data(self, **kwargs):
@@ -157,14 +160,53 @@ class GroupProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = "shop_product_details.html"
+# class ProductDetailView(DetailView):
+#     model = Product
+#     template_name = "shop_product_details.html"
+#
+#     # def post(self, pk=0):
+#     #     return self
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(DetailView, self).get_context_data(**kwargs)
+#         context.update(CATER_GROUP_NAV)
+#         return context
 
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
+class ProductDetailView(View):
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        product = get_object_or_404(Product, pk=pk)
+        context = {"object": product}
         context.update(CATER_GROUP_NAV)
-        return context
+        return render(request, "shop_product_details.html", context=context)
+
+    def post(self, request: HttpRequest, pk: int):
+        value = request.COOKIES.get("basket")
+        products_id = f"{value} {pk}"
+        print("ProductDetailView(post)=products_id====", products_id)
+
+        product_id_list = products_id.split(" ")
+
+        total_price = 0
+        products_list = []
+        for product_id in product_id_list[1:]:
+            product = Product.objects.get(id=product_id)
+            products_list.append(product)
+            total_price += product.price
+
+        print("ProductDetailView(post)=====", products_list)
+
+        context = {
+            "name_page": "Корзина",
+            "object_list": products_list,
+            "total_price": total_price,
+        }
+        context.update(CATER_GROUP_NAV)
+        response = render(request, 'basket_products_list.html', context=context)
+        # response.delete_cookie('basket')
+        # response.set_cookie(key="basket", value=products_id, max_age=31536000)
+        response.set_cookie(key="basket", value=products_id, max_age=5*60)
+        return response
+
 
 
 # from django.shortcuts import render

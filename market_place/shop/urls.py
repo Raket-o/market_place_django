@@ -1,4 +1,6 @@
 from django.urls import path, re_path
+from django.views.decorators.cache import cache_page
+from market_place.settings import CACHE_SECONDS
 
 from .views import (
     GroupProductListView,
@@ -22,10 +24,10 @@ urlpatterns = [
     # ),
 
     # path("products/top-seller-product/", TopSellerProductListView.as_view(), name='top_seller_product'),
-    path("", TopSellerProductListView.as_view(), name='top_seller_product'),
-    path("products/<int:pk>/", ProductDetailView.as_view(), name='product_details'),
+    path("", cache_page(CACHE_SECONDS)(TopSellerProductListView.as_view()), name='top_seller_product'),
+    path("products?pk=<int:pk>/", cache_page(CACHE_SECONDS)(ProductDetailView.as_view()), name='product_details'),
     # re_path(r'^categories/', GroupProductListView.as_view(), name='group_product_list_view'),
-    path("categories?category=<str:category>&groups=<str:group>/", GroupProductListView.as_view(), name='group_product_list_view'),
+    path("categories?category=<str:category>&groups=<str:group>/", cache_page(CACHE_SECONDS)(GroupProductListView.as_view()), name='group_product_list_view'),
 
     # path(
     #     "products/<int:pk>/",

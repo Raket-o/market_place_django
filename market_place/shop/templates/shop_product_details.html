@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="detail_container_product">
-        <img class="detail_product" src="{{ product.photo.url }}" width="256" alt="{{ product.photo.name }}" >
+        <img class="detail_product" src="{{ object.photo.url }}" width="256" alt="{{ object.photo.name }}" >
         <h2 class="detail_info_product">{{ object.name }}</h2>
         Описание:<em> {{ object.description }}</em>
         <br>
@@ -24,9 +24,18 @@
             <button class="btn btn-secondary">Вернуться</button>
         </a>
 
-        <a class="margin-left_btn" href="{% url 'basket:add_product_to_basket' user_id=user.pk product_id=product.id%}">
-            <button type="submit" class="btn btn-primary">Купить</button>
-        </a>
+{#        <a class="margin-left_btn" href="{% url 'basket:add_product_to_basket' user_id=user.pk product_id=product.id%}">#}
+{#        <a class="margin-left_btn" href="{% url 'basket:add_product_to_basket' product_id=product.id%}">#}
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">В корзину</button>
+        </form>
+
+{#        <a class="margin-left_btn" href="{% url 'basket:add_product_to_basket' %}">#}
+{#            <button type="submit" class="btn btn-primary">Купить</button>#}
+{#        </a>#}
     </div>
 {% endblock %}
 

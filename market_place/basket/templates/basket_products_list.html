@@ -1,3 +1,78 @@
+{#{% extends 'index.html' %}#}
+{##}
+{#{% block title %}#}
+{#    {{ name_page.title }}#}
+{#{% endblock %}#}
+{##}
+{#{% block name_page %}#}
+{#    {{ name_page.title }}#}
+{#{% endblock %}#}
+{##}
+{##}
+{#{% block content %}#}
+{#    {% for product in object_list %}#}
+{#        <div class="list_basket_product">#}
+{#            <a style="display:flex; background-color: white; border-radius: 18px;" href={% url 'shop:product_details' pk=product.id%}>#}
+{#            <a class="list_basket_product" href={% url 'shop:product_details' pk=product.id%}>#}
+{#            <a class="list_basket_product" href={% url 'shop:product_details' pk=product.id%}>#}
+{#                <img style="margin-left: 10px;" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}">#}
+{#                <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}">#}
+{##}
+{#                <div style="margin-left: 10px;">#}
+{#                <div>#}
+{#                    <div>#}
+{#                        {{ product.name }}#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        Цвет: {{ product.color }}#}
+{#                    </div>#}
+{#                    <div>#}
+{#                       Размер: {{ product.size }}#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        {{ product.price }}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <div style="margin-right: 10px;">#}
+{#                     <form method="post">#}
+{#                        {% csrf_token %}#}
+{#                        {{ form.as_p }}#}
+{#                        <label class="del_btn" onclick type="submit"></label>#}
+{#                        <a class="del_btn" type="submit" onclick %}></a>#}
+{#                    </form>#}
+{#                    <a class="del_btn" type="submit" onclick href={% url 'shop:top_seller_product' %}></a>#}
+{#                </div>#}
+{#            </a>#}
+{##}
+{#            <div style="margin-right: 10px;">#}
+{#                 <form method="post">#}
+{#                    {% csrf_token %}#}
+{#                    {{ form.as_p }}#}
+{#                     <label class="del_btn" onclick type="submit"></label>#}
+{#                    <a class="del_btn" type="submit" onclick href={% url 'basket:basket_confirm' product_id=product.id %}></a>#}
+{#                </form>#}
+{#                    <a class="del_btn" type="submit" onclick href={% url 'shop:top_seller_product' %}></a>#}
+{#                </div>#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#    Итог: {{ total_price }} &#8381;#}
+{#    <br>#}
+{#    <br>#}
+{#    <div class="flex">#}
+{#        <a href="javascript:history.back()">#}
+{#            <button class="btn btn-secondary">Вернуться</button>#}
+{#        </a>#}
+{##}
+{#        <a class="margin-left_btn" href="#Arrange">#}
+{#            <button class="btn btn-primary">Оформить</button>#}
+{#        </a>#}
+{#    </div>#}
+{#{% endblock %}#}
+{##}
+{#{% block footer %}#}
+{#{% endblock %}#}
+
 {% extends 'index.html' %}
 
 {% block title %}
@@ -9,31 +84,32 @@
 {% endblock %}
 
 {% block content %}
-    {% for basket in object_list %}
+    {% for product in object_list %}
         <div class="list_basket_product">
 {#            <a style="display:flex; background-color: white; border-radius: 18px;" href={% url 'shop:product_details' pk=basket.product.id%}>#}
-            <a class="list_basket_product" href={% url 'shop:product_details' pk=basket.product.id%}>
+            <a class="list_basket_product" href={% url 'shop:product_details' pk=product.id%}>
 {#                <img style="margin-left: 10px;" src="{{ basket.product.photo.url }}" width="65" alt="{{ basket.product.photo.name }}">#}
-                <img class="img_product" src="{{ basket.product.photo.url }}" width="65" alt="{{ basket.product.photo.name }}">
+                <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{product.photo.name }}">
 
                 <div style="margin-left: 10px;">
 {#                <div>#}
                     <div>
-                        {{ basket.product.name }}
+                        {{ product.name }}
                     </div>
                     <div>
-                        Цвет: {{ basket.product.color }}
+                        Цвет: {{ product.color }}
                     </div>
                     <div>
-                       Размер: {{ basket.product.size }}
+                       Размер: {{ product.size }}
                     </div>
                     <div>
-                        {{ basket.product.price }}
+                        {{ product.price }}
                     </div>
                 </div>
 
                 <div style="margin-right: 10px;">
-                    <a class="del_btn" onclick href={% url 'shop:top_seller_product' %}></a>
+                    <a class="del_btn" onclick href={% url 'basket:basket_confirm' product_ind=forloop.counter0%}></a>
+{#                    <a class="del_btn" onclick href="#weweg"></a>#}
                 </div>
             </a>
         </div>
@@ -42,8 +118,8 @@
     <br>
     <br>
     <div class="flex">
-        <a href="javascript:history.back()">
-            <button class="btn btn-secondary">Вернуться</button>
+        <a href={% url 'shop:top_seller_product' %}>
+            <button class="btn btn-secondary">На главную</button>
         </a>
 
         <a class="margin-left_btn" href="#Arrange">

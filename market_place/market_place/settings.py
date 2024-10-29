@@ -216,14 +216,6 @@ INSTALLED_APPS = [
     "authorization.apps.AuthorizationConfig",
     "basket.apps.BasketConfig",
     "shop.apps.ShopConfig",
-
-    # "authorization.apps.AuthorizationConfig",
-    # "customer_statistics.apps.CustomerStatisticsConfig",
-    # "services.apps.ServicesConfig",
-    # "advertising_companies.apps.AdvertisingCompaniesConfig",
-    # "clients.apps.ClientsConfig",
-    # "contracts.apps.ContractsConfig",
-
 ]
 
 MIDDLEWARE = [
