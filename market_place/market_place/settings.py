@@ -215,6 +215,7 @@ INSTALLED_APPS = [
     # "djoser",
     "authorization.apps.AuthorizationConfig",
     "basket.apps.BasketConfig",
+    "order.apps.OrderConfig",
     "shop.apps.ShopConfig",
 ]
 

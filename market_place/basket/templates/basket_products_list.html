@@ -92,7 +92,6 @@
                 <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{product.photo.name }}">
 
                 <div style="margin-left: 10px;">
-{#                <div>#}
                     <div>
                         {{ product.name }}
                     </div>
@@ -108,8 +107,7 @@
                 </div>
 
                 <div style="margin-right: 10px;">
-                    <a class="del_btn" onclick href={% url 'basket:basket_confirm' product_ind=forloop.counter0%}></a>
-{#                    <a class="del_btn" onclick href="#weweg"></a>#}
+                    <a class="del_btn" onclick href={% url 'basket:basket_confirm' product_ind=forloop.counter%}></a>
                 </div>
             </a>
         </div>

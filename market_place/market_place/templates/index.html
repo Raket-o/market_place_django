@@ -53,6 +53,9 @@
             {% if user.is_authenticated %}
                 <div class="text_nav">
                     <a href="{% url 'authorization:user_details' pk=user.pk %}">Профиль</a>
+{#                    <a href="{% url 'order:order_list' pk=user.pk %}">Мои заказы</a>#}
+                    <a href="{% url 'order:order_list' %}">Мои заказы</a>
+{#                    <a href="#orders">Мои заказы</a>#}
                     <a href="{% url 'authorization:logout' %}">Выйти</a>
                 </div>
             {% else %}

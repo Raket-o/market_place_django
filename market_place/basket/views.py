@@ -83,10 +83,8 @@ class Confirm(View):
         return response
 
     def post(self, request: HttpRequest, product_ind: int) -> HttpResponse:
-        print("Confirm=POST================", product_ind)
         value = request.COOKIES.get("basket")
         products_id = f"{value}"
-        print("ProductDetailView(post)=products_id====", products_id)
         product_id_list = products_id.split(" ")
         product_id_list.pop(product_ind)
 
@@ -104,7 +102,9 @@ class Confirm(View):
         }
         context.update(CATER_GROUP_NAV)
         response = render(request, 'basket_products_list.html', context=context)
+        products_id = " ".join(product_id_list)
         response.set_cookie(key="basket", value=products_id, max_age=5*60)
+        # print("ProductDetailView(post)=products_id====", products_id)
         return response
         # return redirect("basket:basket")
 
