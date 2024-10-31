@@ -36,6 +36,7 @@ class Group(models.Model):
 
 
 def prod_photo_directory_path(instance: "Product", filename: str) -> str:
+    # print("prod_photo_directory_path===================",instance)
     return f"photo_prod/product_{instance.pk}/photo/{filename}"
 
 
@@ -49,7 +50,7 @@ class Product(models.Model):
     description = models.TextField(null=False, blank=True)
     # price = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
     price = models.DecimalField(null=False, max_digits=8, decimal_places=2, blank=False)
-    discount = models.PositiveSmallIntegerField(default=0)
+    # discount = models.PositiveSmallIntegerField(default=0)
     size = models.CharField(max_length=5, blank=True)
     color = models.CharField(max_length=50, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -60,7 +61,7 @@ class Product(models.Model):
     group = models.ManyToManyField(Group, related_name="products")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     # created_by = models.CharField(default=User)
-    photo = models.ImageField(null=True, upload_to=prod_photo_directory_path, blank=True)
+    photo = models.ImageField(null=True, upload_to=prod_photo_directory_path, blank=False)
 
     # def __repr__(self):
     #     return self.name

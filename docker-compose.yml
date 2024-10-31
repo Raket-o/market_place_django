@@ -29,7 +29,7 @@ services:
 #      python manage.py migrate
 #      && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
 #      "
-##    volumes: [ './django_crm/uploads/:/app/uploads']
+##    volumes: [ './market_place/uploads/:/app/uploads']
 #    restart: unless-stopped
 #    ports:
 #      - "8080:8080"

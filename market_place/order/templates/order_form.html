@@ -1,0 +1,84 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block name_page %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% if user.is_authenticated %}
+            {% if object.delivery_address and object.phone_number %}
+                <div class="list_product">
+                    <a style="width: 100%; text-align: center" href="{% url 'authorization:profile_delivery_address_update' pk=user.profile.pk %}">
+                        Адрес доставки:
+                        {{ object.delivery_address }}
+                    </a>
+                </div>
+                <div class="list_product">
+                    <a style="width: 100%; text-align: center" href="{% url 'authorization:profile_phone_update' pk=user.profile.pk %}">
+                        Номер телефона:
+                        {{ object.phone_number}}
+                    </a>
+                </div>
+                <div class="list_product" style="margin-bottom: 10px;">
+                    <div style="width: 100%; text-align: right; margin-right: 10px;">
+                        Сумма заказа: {{ total_price }} &#8381;
+                    </div>
+                </div>
+
+            {% elif not object.delivery_address %}
+                <div style="margin-bottom: 15px">
+                    Добавьте адрес доставки в профиле
+                </div>
+                <div style="margin-bottom: 15px">
+                    <a href="{% url 'authorization:profile_delivery_address_update' pk=user.profile.pk %}">
+                        <button class="btn btn-primary" type="button">Добавить</button>
+                    </a>
+                </div>
+
+            {% elif not object.phone_number %}
+                <div style="margin-bottom: 15px">
+                    Добавьте номер телефона в профиле
+                </div>
+                <div style="margin-bottom: 15px">
+                    <a href="{% url 'authorization:profile_phone_update' pk=user.profile.pk %}">
+                        <button class="btn btn-primary" type="button">Добавить</button>
+                    </a>
+                </div>
+            {% endif %}
+
+        {% else %}
+            <div style="margin-bottom: 15px">
+                <div style="margin-bottom: 15px">
+                    Войдите под собой
+                </div>
+                <div>
+                    <a href="{% url 'authorization:login'%}">
+                        <button class="btn btn-primary" type="button">Войти</button>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div style="display: flex">
+            <a href="{% url 'basket:basket'%}">
+                <button class="btn btn-secondary" type="button">Вернуться</button>
+            </a>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                    <div>
+                        {% if object.delivery_address and object.phone_number %}
+                            <button class="btn btn-primary" type="submit">Заказать</button>
+                        {% endif %}
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

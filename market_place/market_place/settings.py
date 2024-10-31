@@ -316,11 +316,25 @@ STATIC_URL = "/static/"
 
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, "market_place", "templates", "static")]
+    MEDIA_URL = "/media/"
+
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "market_place", "templates", "static")
+    MEDIA_URL = STATIC_URL + "media/"
+    # MEDIA_URL = "/media/"
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "uploads"
+
+# src="/static/media/photo_prod/product_None/photo/ob11.jpg"
+# src="/static/media/photo_prod/product_12/photo/ob12_r4h64Mt.jpg"
+
+# src="/static/photo_prod/product_None/photo/ob3.jpeg"
+# MEDIA_URL = STATIC_URL + "media/"
+
+
+# True
+# MEDIA_ROOT = BASE_DIR / "uploads"
+MEDIA_ROOT = os.path.join(BASE_DIR, "market_place", "templates", "static", "media")
+
 
 
 # Default primary key field type

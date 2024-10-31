@@ -112,17 +112,24 @@
             </a>
         </div>
     {% endfor %}
-    Итог: {{ total_price }} &#8381;
+    Сумма: {{ total_price }} &#8381;
     <br>
     <br>
     <div class="flex">
-        <a href={% url 'shop:top_seller_product' %}>
+        <a href={% url 'shop:top_seller_product'%}>
             <button class="btn btn-secondary">На главную</button>
         </a>
 
-        <a class="margin-left_btn" href="#Arrange">
-            <button class="btn btn-primary">Оформить</button>
-        </a>
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#                 <button type="submit" class="btn btn-primary">Оформить</button>#}
+{#        </form>#}
+        {% if total_price%}
+            <a class="margin-left_btn" href={% url 'order:order_arrange'%}>
+                <button class="btn btn-primary">Оформить</button>
+            </a>
+        {% endif %}
     </div>
 {% endblock %}
 

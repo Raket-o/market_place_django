@@ -18,6 +18,7 @@ from django.views.generic import (
 )
 
 from .models import Category, Group, Product
+from env_data import live_cookies
 from django.db.utils import ProgrammingError
 
 # ROLE = "marketing"
@@ -82,7 +83,7 @@ class TopSellerProductListView(ListView):
 
     # print(queryset)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context = super(ListView, self).get_context_data(**kwargs)
         context.update(CATER_GROUP_NAV)
         context.update({"name_page": "Хиты продаж"})
@@ -93,7 +94,7 @@ class GroupProductListView(ListView):
     model = Product
     template_name = "shop_products_list.html"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         self.category = kwargs["category"]
         self.group = kwargs["group"]
         self.object_list = self.get_queryset()
@@ -119,7 +120,7 @@ class GroupProductListView(ListView):
         context = self.get_context_data()
         return self.render_to_response(context)
 
-    def get_queryset(self):
+    def get_queryset(self) -> list[Product]:
         sql_query = f"""
         SELECT sp.id, sp.name, sp.price, sp.photo
         FROM shop_product as sp
@@ -148,12 +149,12 @@ class GroupProductListView(ListView):
         product_list = []
         for attrs in results:
             id, name, price, photo_url = attrs
-            photo = Photo(name, f"/media/{photo_url}")
+            photo = Photo(name, f"/static/media/{photo_url}")
             product = Product(id, name, price, photo)
             product_list.append(product)
         return product_list
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context = super(ListView, self).get_context_data(**kwargs)
         context.update(CATER_GROUP_NAV)
         context.update({"name_page": self.group})
@@ -179,7 +180,7 @@ class ProductDetailView(View):
         context.update(CATER_GROUP_NAV)
         return render(request, "shop_product_details.html", context=context)
 
-    def post(self, request: HttpRequest, pk: int):
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
         value = request.COOKIES.get("basket")
         products_id = f"{value} {pk}"
         print("ProductDetailView(post)=products_id====", products_id)
@@ -204,7 +205,7 @@ class ProductDetailView(View):
         response = render(request, 'basket_products_list.html', context=context)
         # response.delete_cookie('basket')
         # response.set_cookie(key="basket", value=products_id, max_age=31536000)
-        response.set_cookie(key="basket", value=products_id, max_age=5*60)
+        response.set_cookie(key="basket", value=products_id, max_age=live_cookies)
         return response
 
 

@@ -3,6 +3,7 @@ from django.views.decorators.cache import cache_page
 from market_place.settings import CACHE_SECONDS
 
 from .views import (
+    OrderArrange,
     OrderListView,
 #     TopSellerProductListView,
 #     ProductDetailView,
@@ -13,6 +14,7 @@ app_name = "order"
 
 urlpatterns = [
     path("", OrderListView.as_view(), name="order_list"),
+    path("arrange/", OrderArrange.as_view(), name="order_arrange"),
     # path("", index, name="top_products_list"),
     # path("create/", AdvertisingCompanyCreateView.as_view(), name="advertising_company_create"),
     # path("<int:pk>/", ProductDetailsView.as_view(), name="product_details"),
