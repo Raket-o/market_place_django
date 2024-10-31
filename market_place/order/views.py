@@ -57,7 +57,8 @@ class OrderListView(UserPassesTestMixin, View):
             return True
 
     def get(self, request):
-        queryset = (Order.objects.filter(user_id=self.request.user.pk).order_by("-created_at"))
+        queryset = (Order.objects.filter(user_id=self.request.user.pk).prefetch_related("status").order_by("-created_at"))
+        # queryset = (Order.objects.filter(user_id=self.request.user.pk).order_by("-created_at").select_related("status"))
         context = {
             "name_page": "Мои заказы",
             "object_list": queryset,

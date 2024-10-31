@@ -1,6 +1,4 @@
 {% extends 'index.html' %}
-{#{% load static %}#}
-
 
 {% block title %}
     {{ name_page.title }}
@@ -12,35 +10,36 @@
 
 {% block content %}
     {% for order in object_list %}
-        <a class="list_product" style="justify-content: center;" href={% url 'shop:product_details' pk=order.id%}>
-{#            <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}" >#}
+        <a class="list_product" href={% url 'shop:product_details' pk=order.id%}>
             <img class="img_product" width="40" src="/static/photo_order.jpg" alt="photo_order" >
-{#            <img src="{{ url_for('static', filename='img/' + img )}}" />#}
-{#            <img width="65" src="static/images/checkout.png">#}
-{#            <img width="65" src="checkout.png">#}
-{#            <img width="65" src="media/checkout.png">#}
-{#            <img width="65" src="/templates/media/checkout.png">#}
-{#            <img width="65" src="/templates/static/checkout.png">#}
-{#            <img width="65" src="/templates/static/media/checkout.png">#}
-
-{#            <img width="65" src="/market_place/templates/static/checkout.png">#}
-{#            <img width="65" src="/checkout.png">#}
-{#            <img width="40" src="/static/checkout.png">#}
-{#            <img width="40" src="/static/photo_order.jpg">#}
-{#            <img width="65" src="/templates/media/checkout.png">#}
-{#            <img width="65" src="/templates/static/checkout.png">#}
-{#            <img width="65" src="/templates/static/media/checkout.png">#}
-{#            <img width="40" src="https://master.avernus.ru/images/photo.jpg">#}
-
-{#            <img src="{{ static('/checkout.png') }}" alt="image alt text" />#}
-
-{#             <div class="img-div" style="background-image: url('checkout.png');">#}
-{# </div>#}
-
-            <div class="info_product">
-                № {{ order.id }}
-{#                <br>#}
-{#                {{ product.price }} &#8381;#}
+            <div class="info_product block_custom">
+                <div>
+                    № {{ order.id }}
+                </div>
+                <div style="display: flex">
+                    <div>
+                        Статус:
+                    </div>
+                    <div style="margin-left: 5px;">
+                        {% if order.status.name == 'Вручено' %}
+                            <div style="color: green;">
+                               {{ order.status }}
+                           </div>
+                        {% elif order.status.name == 'Сбой' %}
+                            <div style="color: red;">
+                               {{ order.status }}
+                           </div>
+                        {% elif order.status.name == 'Отменён' %}
+                            <div style="color: black;">
+                               {{ order.status }}
+                           </div>
+                        {% else %}
+                            <div style="color: #abab00;">
+                               {{ order.status }}
+                           </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </a>
         {% empty %} Нет ни одного заказ

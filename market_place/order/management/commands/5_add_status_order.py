@@ -12,6 +12,8 @@ class Command(BaseCommand):
             "Сборка",
             "Доставка",
             "Вручено",
+            "Сбой",
+            "Отменён",
         )
 
         for status in status_list:
