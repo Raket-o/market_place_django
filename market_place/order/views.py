@@ -11,7 +11,7 @@ from django.views.generic import (
     View,
 )
 
-from .models import Order
+from .models import Order, CustomProductClass, Status
 
 from env_data import live_cookies
 from authorization.models import Profile
@@ -62,7 +62,12 @@ class OrderListView(UserPassesTestMixin, View):
             return True
 
     def get(self, request: HttpRequest) -> HttpResponse:
-        queryset = (Order.objects.filter(user_id=self.request.user.pk).prefetch_related("status").order_by("-created_at"))
+        queryset = (
+            Order.objects
+            .filter(user_id=self.request.user.pk)
+            .prefetch_related("status")
+            .order_by("-created_at")
+        )
         # queryset = (Order.objects.filter(user_id=self.request.user.pk).order_by("-created_at").select_related("status"))
         context = {
             "name_page": "Мои заказы",
@@ -103,8 +108,7 @@ class OrderArrange(View):
         return render(request, template_name="order_form.html", context=context)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        print("OrderArrange(post)=====")
-
+        status = Status.objects.get(id=1)
         value = request.COOKIES.get("basket")
         products_id = f"{value}"
         product_id_list = products_id.split(" ")
@@ -113,16 +117,25 @@ class OrderArrange(View):
         products_list = []
         for product_id in product_id_list[1:]:
             product = Product.objects.get(id=product_id)
-            products_list.append(product)
+            id = product_id
+            name = product.name
+            price = product.price
+            size = product.size
+            color = product.color
+            photo = f"/static/media/{product.photo}"
+            custom_product_class = CustomProductClass(
+                id, name, price, size, color, photo
+            )
+            products_list.append(str(custom_product_class))
             total_price += product.price
 
-
-        # queryset = (
-        #     Order.objects
-        #     .filter(archived=False)
-        #     .prefetch_related("group")
-        #     .order_by("-rating")[:10]
-        # )
+        order_obj = Order(
+            user=self.request.user,
+            status=status,
+            products="|".join(products_list),
+            total_price=total_price
+        )
+        order_obj.save()
 
         queryset = (
             Order.objects
@@ -136,24 +149,101 @@ class OrderArrange(View):
             "total_price": total_price,
         }
         context.update(CATER_GROUP_NAV)
-        # response = render(request, 'basket_products_list.html', context=context)
         response = render(request, template_name="order_list.html", context=context)
-        # products_id = " ".join(product_id_list)
-        # response.set_cookie(key="basket", value=products_id, max_age=live_cookies)
         response.delete_cookie('basket')
-        # print("ProductDetailView(post)=products_id====", products_id)
         return response
 
 
-        # queryset = (Order.objects.filter(user_id=self.request.user.pk).prefetch_related("status").order_by("-created_at"))
-        # # queryset = (Order.objects.filter(user_id=self.request.user.pk).order_by("-created_at").select_related("status"))
-        # context = {
-        #     "name_page": "Мои заказы",
-        #     "object_list": queryset,
-        # }
-        # context.update(CATER_GROUP_NAV)
-        #
-        # return render(request, template_name="order_list.html", context=context)
+class OrderDetails(View):
+    # class OrderListView(UserPassesTestMixin, DetailView):
+    #     def test_func(self):
+    #         user = self.request.user
+    #         if user.is_staff or user.is_authenticated:
+    #             return True
+
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        # queryset = (Profile.objects.filter(user_id=self.request.user.pk).prefetch_related("user").first())
+        queryset = (Order.objects.filter(id=pk).first())
+        # print("OrderDetails(get)=queryset====", queryset)
+        products_str = str(queryset.products).split("|")
+
+        product_list = []
+        for prod in products_str:
+            print(prod)
+
+            # i = i[1:-1]
+            prod = prod.split(", ")
+            print(prod)
+            product = CustomProductClass(*prod)
+            product_list.append(product)
+
+        print(product_list[0].id)
+        print(product_list[0].name)
+        print(product_list[0].price)
+        print(product_list[0].size)
+        print(product_list[0].color)
+        print(product_list[0].photo)
 
 
+        context = {
+            "name_page": f"Детали заказа № {pk}",
+            "object": queryset,
+            "object_list": product_list,
+            # "total_price": total_price,
+        }
+        context.update(CATER_GROUP_NAV)
+        return render(request, template_name="order_details.html", context=context)
+
+    # def post(self, request: HttpRequest) -> HttpResponse:
+    #     from .models import Product as CustomClassProduct, Status
+    #
+    #     status = Status.objects.get(id=1)
+    #     # print("OrderArrange(post)=====")
+    #
+    #     value = request.COOKIES.get("basket")
+    #     products_id = f"{value}"
+    #     product_id_list = products_id.split(" ")
+    #
+    #     total_price = 0
+    #     products_list = []
+    #     # orders_list = []
+    #     for product_id in product_id_list[1:]:
+    #         product = Product.objects.get(id=product_id)
+    #         name = product.name
+    #         size = product.size
+    #         color = product.color
+    #         price = product.price
+    #         photo = product.photo
+    #         custom_class_product = CustomClassProduct(
+    #             name, size, color, price, photo
+    #         )
+    #         products_list.append(str(custom_class_product))
+    #         # print("OrderArrange(post)=products_list====", custom_class_product)
+    #         # order_obj = Order(user=self.request.user, status=status, products=product, price=product.price)
+    #         # orders_list.append(order_obj)
+    #         total_price += product.price
+    #
+    #     print("OrderArrange(post)=products_list====", products_list)
+    #     # print("OrderArrange(post)=products_list====",str(products_list))
+    #     # print("OrderArrange(post)=order_obj====",order_obj)
+    #
+    #     order_obj = Order(user=self.request.user, status=status, products="|".join(products_list), price=total_price)
+    #     order_obj.save()
+    #     # print("OrderArrange(post)=order_obj====",order_obj.__dict__)
+    #
+    #     queryset = (
+    #         Order.objects
+    #         .filter(user_id=self.request.user.pk)
+    #         .prefetch_related("status")
+    #         .order_by("-created_at"))
+    #
+    #     context = {
+    #         "name_page": "Мои заказы",
+    #         "object_list": queryset,
+    #         "total_price": total_price,
+    #     }
+    #     context.update(CATER_GROUP_NAV)
+    #     response = render(request, template_name="order_list.html", context=context)
+    #     # response.delete_cookie('basket')
+    #     return response
 

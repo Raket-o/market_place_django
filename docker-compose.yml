@@ -20,22 +20,22 @@ services:
       advertising_services_network:
         ipv4_address: 192.168.55.4
 
-#  django:
-#    depends_on:
-#      - postgres_db
-#    build: .
-#    container_name: django
-#    command: bash -c "
-#      python manage.py migrate
-#      && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
-#      "
-##    volumes: [ './market_place/uploads/:/app/uploads']
-#    restart: unless-stopped
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      advertising_services_network:
-#        ipv4_address: 192.168.55.5
+  django:
+    depends_on:
+      - postgres_db
+    build: .
+    container_name: django
+    command: bash -c "
+      python manage.py migrate
+      && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
+      "
+#    volumes: [ './market_place/uploads/:/app/uploads']
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      advertising_services_network:
+        ipv4_address: 192.168.55.5
 
 #  localxpose:
 #    depends_on:

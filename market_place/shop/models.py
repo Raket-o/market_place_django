@@ -47,7 +47,7 @@ class Product(models.Model):
         ordering = "id", "name"
 
     name = models.CharField(max_length=50, blank=False)
-    description = models.TextField(null=False, blank=True)
+    # description = models.TextField(null=False, blank=True)
     # price = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
     price = models.DecimalField(null=False, max_digits=8, decimal_places=2, blank=False)
     # discount = models.PositiveSmallIntegerField(default=0)

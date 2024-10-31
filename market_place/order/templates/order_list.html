@@ -10,7 +10,7 @@
 
 {% block content %}
     {% for order in object_list %}
-        <a class="list_product" href={% url 'shop:product_details' pk=order.id%}>
+        <a class="list_product" href={% url 'order:order_details' pk=order.id%}>
             <img class="img_product" width="40" src="/static/photo_order.jpg" alt="photo_order" >
             <div class="info_product block_custom">
                 <div>

@@ -8,11 +8,11 @@
     <div class="detail_container_product">
         <img class="detail_product" src="{{ object.photo.url }}" width="256" alt="{{ object.photo.name }}" >
         <h2 class="detail_info_product">{{ object.name }}</h2>
-        Описание:<em> {{ object.description }}</em>
-        <br>
+{#        Описание:<em> {{ object.description }}</em>#}
+{#        <br>#}
         Размер:<em> {{ object.size }} </em>
         <br>
-        Цвет:<em> {{ object.description }}</em>
+        Цвет:<em> {{ object.color }}</em>
         <br>
         Рейтинг:<em> {{ object.rating }} </em>
         <br>
@@ -21,7 +21,7 @@
 
     <div class="flex">
         <a href="javascript:history.back()">
-            <button class="btn btn-secondary">Вернуться</button>
+            <button class="btn btn-secondary">Назад</button>
         </a>
 
 {#        <a class="margin-left_btn" href="{% url 'basket:add_product_to_basket' user_id=user.pk product_id=product.id%}">#}

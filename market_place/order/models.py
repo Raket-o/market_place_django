@@ -16,12 +16,21 @@ class Status(models.Model):
         return self.name
 
 
-class Product:
-    def __init__(self, name, size, color, photo):
-        self.name = name,
-        self.size = size,
-        self.color = color,
-        self.photo = photo,
+class CustomProductClass:
+    def __init__(self, id, name, price, size, color, photo):
+        self.id = id
+        self.name = name
+        self.price = price
+        self.size = size
+        self.color = color
+        self.photo = photo
+
+    def __str__(self):
+        # return json.load(self.__dict__)
+        # return str(self.__dict__)
+        return f"{self.id}, {self.name}, {self.price}, {self.size}, {self.color}, {self.photo}"
+
+        # return f"{'name': {self.name}, 'size': {self.size}, 'color': {self.color}, 'price': {self.price}, 'photo': {self.photo}}"
 
 
 class Order(models.Model):
@@ -33,8 +42,13 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True)
     # products = models.ManyToManyField(Product, related_name="orders")
-    products = Product
-    price = models.DecimalField(null=False, max_digits=8, decimal_places=2, blank=False)
+    products = models.TextField(null=False, blank=True)
+    total_price = models.DecimalField(null=False, max_digits=8, decimal_places=2, blank=False)
 
     def __str__(self):
         return f"Order(id={self.pk}, user={self.user}, status={self.status.name})"
+
+    def __repr__(self):
+        return str(self.__dict__)
+        # return f'created_at={self.created_at}, user={self.user}, products={self.products}, total_price={self.total_price}'
+

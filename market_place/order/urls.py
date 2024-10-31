@@ -4,6 +4,7 @@ from market_place.settings import CACHE_SECONDS
 
 from .views import (
     OrderArrange,
+    OrderDetails,
     OrderListView,
 #     TopSellerProductListView,
 #     ProductDetailView,
@@ -14,6 +15,7 @@ app_name = "order"
 
 urlpatterns = [
     path("", OrderListView.as_view(), name="order_list"),
+    path("&order-id=<int:pk>", OrderDetails.as_view(), name="order_details"),
     path("arrange/", OrderArrange.as_view(), name="order_arrange"),
     # path("", index, name="top_products_list"),
     # path("create/", AdvertisingCompanyCreateView.as_view(), name="advertising_company_create"),
