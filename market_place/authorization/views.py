@@ -1,8 +1,5 @@
-from django.contrib.auth.decorators import login_not_required
-from django.utils.decorators import method_decorator
-
-
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_not_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -11,6 +8,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import resolve_url, redirect, reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, TemplateView, View
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 
 from .models import Profile
 
@@ -64,7 +62,6 @@ class UserDetailsView(UserPassesTestMixin, DetailView):
         return (
                 user.is_superuser
                 or user.is_staff
-        #         # or user.has_perm("myauth.change_profile")
                 or user.id == self.get_object().pk
         )
 
@@ -87,7 +84,6 @@ class UserUserNameUpdateView(UserPassesTestMixin, UpdateView):
         return (
                 user.is_superuser
                 or user.is_staff
-                # or user.has_perm("myauth.change_profile")
                 or user.id == self.get_object().pk
 
         )
@@ -114,7 +110,6 @@ class ProfileDeliveryAddressUpdateView(UserUserNameUpdateView):
         return (
                 user.is_superuser
                 or user.is_staff
-                # or user.has_perm("myauth.change_profile")
                 or user.id == self.get_object().user.profile.user.pk
         )
 

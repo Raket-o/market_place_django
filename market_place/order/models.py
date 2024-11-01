@@ -26,11 +26,7 @@ class CustomProductClass:
         self.photo = photo
 
     def __str__(self):
-        # return json.load(self.__dict__)
-        # return str(self.__dict__)
         return f"{self.id}, {self.name}, {self.price}, {self.size}, {self.color}, {self.photo}"
-
-        # return f"{'name': {self.name}, 'size': {self.size}, 'color': {self.color}, 'price': {self.price}, 'photo': {self.photo}}"
 
 
 class Order(models.Model):
@@ -41,7 +37,6 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True)
-    # products = models.ManyToManyField(Product, related_name="orders")
     products = models.TextField(null=False, blank=True)
     total_price = models.DecimalField(null=False, max_digits=8, decimal_places=2, blank=False)
 
@@ -50,5 +45,3 @@ class Order(models.Model):
 
     def __repr__(self):
         return str(self.__dict__)
-        # return f'created_at={self.created_at}, user={self.user}, products={self.products}, total_price={self.total_price}'
-

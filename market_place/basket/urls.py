@@ -1,9 +1,6 @@
 from django.urls import path, re_path
 
-from .views import (
-    BasketListView,
-    Confirm,
-)
+from .views import BasketListView, Confirm
 
 
 app_name = "basket"

@@ -19,4 +19,7 @@ debug = os.getenv("DEBUG").capitalize()
 log_level = os.getenv("LOG_LEVEL").upper()
 login_superuser = os.getenv("LOGIN_SUPERUSER")
 live_cookies = int(os.getenv("LIVE_COOKIES"))
+
+bot_token = os.getenv("BOT_TOKEN")
 url_app = os.getenv("URL_APP")
+telegram_id_list = [int(i) for i in os.getenv("TELEGRAM_ID_LIST").split()]

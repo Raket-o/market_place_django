@@ -14,57 +14,20 @@
 #     1. Import the include() function: from django.urls import include, path
 #     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 # """
-# from django.contrib import admin
-# from django.urls import path
-#
-# urlpatterns = [
-#     path("admin/", admin.site.urls),
-# ]
-
 
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-# from rest_framework.routers import DefaultRouter
 
-# from .views import (
-#     index,
-# )
-
-# from services.views import ServiceViewSet
-# from advertising_companies.views import AdvertisingCompanyViewSet
-# from clients.views import ClientViewSet, ClientActiveViewSet, ClientToActiveViewSet
-# from contracts.views import ContractViewSet
-
-# routers = DefaultRouter()
-# routers.register("services", ServiceViewSet, basename='services')
-# routers.register("advertising-companies", AdvertisingCompanyViewSet, basename='advertising_companies')
-# routers.register("clients", ClientViewSet, basename='clients')
-# routers.register("client-to-active", ClientToActiveViewSet, basename='client_to_active')
-# routers.register("client-active", ClientActiveViewSet, basename='client_active')
-# routers.register("contracts", ContractViewSet, basename='contracts')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path("", index, name="index"),
-    # path("products/", include('shop.urls')),
-    # path("", index, name="index"),
     path("", include('shop.urls')),
     path("auth/", include('authorization.urls')),
     path("baskets/", include('basket.urls')),
     path("orders/", include('order.urls')),
-
-    # path('', include('authorization.urls')),
-    # path('statistics/', include('customer_statistics.urls')),
-    # path('services/', include('services.urls')),
-    # path('advertising-companies/', include('advertising_companies.urls')),
-    # path('clients/', include('clients.urls')),
-    # path('contracts/', include('contracts.urls')),
-    #
-    # path("api/", include(routers.urls)),
-    # path('api/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:
@@ -81,6 +44,3 @@ if settings.DEBUG:
     )
 
     urlpatterns += staticfiles_urlpatterns()
-
-
-

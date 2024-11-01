@@ -1,5 +1,5 @@
-  #docker-compose.yml
-version: "3"
+#docker-compose.yml
+version: "3.5"
 
 
 services:
@@ -17,7 +17,7 @@ services:
     expose:
       - 5434
     networks:
-      advertising_services_network:
+      market_place_network:
         ipv4_address: 192.168.55.4
 
   django:
@@ -27,31 +27,20 @@ services:
     container_name: django
     command: bash -c "
       python manage.py migrate
+      && python manage.py 1_add_superuser
+      && python manage.py 2_add_status_order
       && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
       "
-#    volumes: [ './market_place/uploads/:/app/uploads']
-    restart: unless-stopped
+    volumes: [ './market_place/market_place/templates/static/media/:/market_place/market_place/templates/static/media']
+#    restart: unless-stopped
     ports:
       - "8080:8080"
     networks:
-      advertising_services_network:
+      market_place_network:
         ipv4_address: 192.168.55.5
 
-#  localxpose:
-#    depends_on:
-#      - django
-#    image: localxpose/localxpose:latest # read more here https://hub.docker.com/r/localxpose/localxpose
-#    # forward any incoming requests to traefik container
-#    command: tunnel -r http --reserved-domain "*.example.com" --to 0.0.0.0:8080
-#    environment:
-#      # Get your access token from your dashboard here https://localxpose.io/dashboard/access
-#      ACCESS_TOKEN: pYTRGmfzMTnlKy7eJ1UDB3Hl8XPAHXwGn86fUD3I
-#    networks:
-#      advertising_services_network:
-#        ipv4_address: 192.168.55.6
-
 networks:
-  advertising_services_network:
+  market_place_network:
     driver: bridge
     ipam:
       driver: default
