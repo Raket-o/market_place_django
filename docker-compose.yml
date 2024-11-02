@@ -32,7 +32,7 @@ services:
       && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
       "
     volumes: [ './market_place/market_place/templates/static/media/:/market_place/market_place/templates/static/media']
-#    restart: unless-stopped
+    restart: unless-stopped
     ports:
       - "8080:8080"
     networks:
