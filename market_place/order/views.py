@@ -38,7 +38,6 @@ class OrderListView(UserPassesTestMixin, View):
             "object_list": queryset,
         }
         context.update(CATER_GROUP_NAV)
-
         return render(request, template_name="order_list.html", context=context)
 
 
@@ -118,7 +117,7 @@ class OrderDetails(UserPassesTestMixin, View):
             return True
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        queryset = (Order.objects.filter(id=pk).first())
+        queryset = Order.objects.filter(id=pk).first()
         products_str = str(queryset.products).split("|")
 
         product_list = []
@@ -134,3 +133,31 @@ class OrderDetails(UserPassesTestMixin, View):
         }
         context.update(CATER_GROUP_NAV)
         return render(request, template_name="order_details.html", context=context)
+
+
+class Confirm(View):
+    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+        context = {
+            "name_page": "Удалить",
+            "order_id": pk,
+        }
+        context.update(CATER_GROUP_NAV)
+        response = render(request, 'order_confirm.html', context=context)
+        return response
+
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        order = Order.objects.filter(id=pk).first()
+        order.delete()
+
+        queryset = (
+            Order.objects
+            .filter(user_id=self.request.user.pk)
+            .prefetch_related("status")
+            .order_by("-created_at")
+        )
+        context = {
+            "name_page": "Мои заказы",
+            "object_list": queryset,
+        }
+        context.update(CATER_GROUP_NAV)
+        return render(request, template_name="order_list.html", context=context)
