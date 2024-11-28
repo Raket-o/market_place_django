@@ -25,7 +25,6 @@
 </head>
 
 <body>
-{#    <div class="container">#}
         <input type="checkbox" id="nav-toggle" hidden>
         <nav class="nav">
             <label for="nav-toggle" class="nav-toggle" onclick></label>
@@ -53,9 +52,7 @@
             {% if user.is_authenticated %}
                 <div class="text_nav">
                     <a href="{% url 'authorization:user_details' pk=user.pk %}">Профиль</a>
-{#                    <a href="{% url 'order:order_list' pk=user.pk %}">Мои заказы</a>#}
                     <a href="{% url 'order:order_list' %}">Мои заказы</a>
-{#                    <a href="#orders">Мои заказы</a>#}
                     <a href="{% url 'authorization:logout' %}">Выйти</a>
                 </div>
             {% else %}
@@ -65,12 +62,10 @@
             {% endif %}
         </nav>
 
-{#        <div class="mask-content">#}
         <main role="main">
             <article>
                 <header>
                 </header>
-{#                <section>#}
                     <div class="indent_container">
                         <p class="text_name_page">
                             {% block name_page %}
@@ -80,16 +75,12 @@
                         {% block content %}
                         {% endblock %}
                     </div>
-{#                </section>#}
                 <hr>
+
                 <footer>
-                    {% block footer %}
-                    {% endblock %}
                 </footer>
             </article>
         </main>
-{#    </div>#}
-{#    </div>#}
 </body>
 
 </html>

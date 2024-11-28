@@ -16,6 +16,8 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=20, validators=[validate_phone_number])
     delivery_address = models.CharField(max_length=250, blank=False)
     activate = models.BooleanField(default=True)
+    messanger = models.CharField(max_length=50, null=True, blank=True)
+    messanger_id = models.BigIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"Profile(id={self.pk}, user={self.user})"

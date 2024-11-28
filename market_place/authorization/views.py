@@ -1,3 +1,5 @@
+import jwt
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_not_required
 from django.contrib.auth.forms import UserCreationForm
@@ -5,14 +7,23 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import resolve_url, redirect, reverse
+from django.shortcuts import resolve_url, redirect, render, reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, TemplateView, View
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 
+from jwt.exceptions import InvalidSignatureError
+
+from passlib.context import CryptContext
+
 from .models import Profile
 
+from env_data import algorithm, bot_token
+from shop.models import Product
 from shop.views import CATER_GROUP_NAV
+
+
+PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class RegisterView(CreateView):
@@ -78,7 +89,7 @@ class UserDetailsView(UserPassesTestMixin, DetailView):
         return context
 
 
-class UserUserNameUpdateView(UserPassesTestMixin, UpdateView):
+class UserNameUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         return (
@@ -104,7 +115,7 @@ class UserUserNameUpdateView(UserPassesTestMixin, UpdateView):
         )
 
 
-class ProfileDeliveryAddressUpdateView(UserUserNameUpdateView):
+class ProfileDeliveryAddressUpdateView(UserNameUpdateView):
     def test_func(self):
         user = self.request.user
         return (
@@ -133,16 +144,78 @@ class ProfilePhoneUpdateView(ProfileDeliveryAddressUpdateView):
         )
 
 
-class UserFirstNameUpdateView(UserUserNameUpdateView):
+class UserFirstNameUpdateView(UserNameUpdateView):
     model = User
     fields = 'first_name',
 
 
-class UserLastNameUpdateView(UserUserNameUpdateView):
+class UserLastNameUpdateView(UserNameUpdateView):
     model = User
     fields = 'last_name',
 
 
-class UserEmailUpdateView(UserUserNameUpdateView):
+class UserEmailUpdateView(UserNameUpdateView):
     model = User
     fields = 'email',
+
+
+class TelegramRegisterView(View):
+    def get(self, request: HttpRequest, jwt_token: str) -> None:
+        payload = jwt.decode(jwt_token, bot_token, algorithms=[algorithm])
+        print(type(payload), payload)
+
+        first_name = payload.get("first_name")
+        last_name = payload.get("last_name") if payload.get("last_name") else "Не указана"
+        messanger = payload.get("messanger")
+        messanger_id = payload.get("messanger_id")
+        password = PWD_CONTEXT.hash(b"messanger_id")
+
+        user_profile = Profile.objects.filter(messanger_id=messanger_id)
+        if not user_profile:
+            try:
+                user = User(
+                    password=password,
+                    is_superuser=False,
+                    username=messanger_id,
+                    first_name=first_name,
+                    last_name=last_name,
+                    is_staff=False,
+                    is_active=True,
+                )
+                user.save()
+
+                profile = Profile(
+                    user_id=user.pk,
+                    messanger=messanger,
+                    messanger_id=messanger_id,
+                )
+                profile.save()
+                print(profile)
+                login(request=request, user=user)
+
+
+            except AttributeError as err:
+                user.delete()
+                profile.delete()
+                print(err)
+        else:
+            user_profile = Profile.objects.get(messanger_id=messanger_id)
+            user = user_profile.user
+
+        products_list = (
+            Product.objects
+            .filter(archived=False)
+            .prefetch_related("group")
+            .order_by("-rating")[:10]
+        )
+
+        context = {
+            "name_page": "Хиты продаж",
+            "object_list": products_list,
+            "user": user,
+        }
+
+        context.update(CATER_GROUP_NAV)
+        response = render(request, 'shop_products_list.html', context=context)
+        login(request=request, user=user)
+        return response
