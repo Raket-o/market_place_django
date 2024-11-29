@@ -19,5 +19,9 @@ class Profile(models.Model):
     messanger = models.CharField(max_length=50, null=True, blank=True)
     messanger_id = models.BigIntegerField(null=True, blank=True)
 
+    indexes = [
+        models.Index(fields=('messanger_id', )),
+    ]
+
     def __str__(self):
         return f"Profile(id={self.pk}, user={self.user})"
