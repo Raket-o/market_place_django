@@ -13,13 +13,13 @@
         {% if user.is_authenticated %}
             {% if object.delivery_address and object.phone_number %}
                 <div class="list_product">
-                    <a style="width: 100%; text-align: center" href="{% url 'authorization:profile_delivery_address_update' pk=user.profile.pk %}">
+                    <a style="width: 100%; padding-left: 10px; text-align: left" href="{% url 'authorization:profile_delivery_address_update' pk=user.profile.pk %}">
                         Адрес доставки:
                         {{ object.delivery_address }}
                     </a>
                 </div>
                 <div class="list_product">
-                    <a style="width: 100%; text-align: center" href="{% url 'authorization:profile_phone_update' pk=user.profile.pk %}">
+                    <a style="width: 100%; padding-left: 10px; text-align: left" href="{% url 'authorization:profile_phone_update' pk=user.profile.pk %}">
                         Номер телефона:
                         {{ object.phone_number}}
                     </a>

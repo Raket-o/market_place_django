@@ -166,12 +166,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+
+# # STATIC_URL = "/static/"
+# STATIC_URL = "/market_place/templates/static/"
+#
+#
+# if DEBUG:
+#     STATICFILES_DIRS = [os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static")]
+#     MEDIA_URL = "/media/"
+# else:
+#     STATIC_ROOT = os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static")
+#     MEDIA_URL = STATIC_URL + "media/"
+#
+# # MEDIA_ROOT = os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static", "media")
+# MEDIA_ROOT = os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static", "media")
+
 STATIC_URL = "/static/"
 
 if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, "market_place", "templates", "static")]
     MEDIA_URL = "/media/"
-
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "market_place", "templates", "static")
     MEDIA_URL = STATIC_URL + "media/"

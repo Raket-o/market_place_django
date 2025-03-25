@@ -21,8 +21,6 @@ services:
         ipv4_address: 192.168.55.4
 
   django:
-    depends_on:
-      - postgres_db
     build: .
     container_name: django
     command: bash -c "
@@ -31,8 +29,11 @@ services:
       && python manage.py 2_add_status_order
       && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
       "
-    volumes: [ './market_place/market_place/templates/static/media/:/market_place/market_place/templates/static/media']
+    volumes:
+      - ./market_place/market_place/templates/static/media/:/market_place/market_place/templates/static/media/
     restart: unless-stopped
+    depends_on:
+      - postgres_db
     ports:
       - "8080:8080"
     networks:
