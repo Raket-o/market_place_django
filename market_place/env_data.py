@@ -21,7 +21,7 @@ login_superuser = os.getenv("LOGIN_SUPERUSER")
 live_cookies = int(os.getenv("LIVE_COOKIES"))
 
 bot_token = os.getenv("BOT_TOKEN")
-url_app = os.getenv("URL_APP")
+url_app = os.getenv("URL_APP") if os.getenv("URL_APP") else "192.168.55.5"
 telegram_id_list = [int(i) for i in os.getenv("TELEGRAM_ID_LIST").split()]
 
 algorithm = "HS256"

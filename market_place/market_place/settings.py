@@ -44,7 +44,7 @@ INTERNAL_IPS = [
     "0.0.0.0",
 ]
 
-CSRF_TRUSTED_ORIGINS = [f'https://{url_app}']
+CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0", f"https://{url_app}"]
 
 if DEBUG:
     import socket
@@ -166,20 +166,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-
-# # STATIC_URL = "/static/"
-# STATIC_URL = "/market_place/templates/static/"
-#
-#
-# if DEBUG:
-#     STATICFILES_DIRS = [os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static")]
-#     MEDIA_URL = "/media/"
-# else:
-#     STATIC_ROOT = os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static")
-#     MEDIA_URL = STATIC_URL + "media/"
-#
-# # MEDIA_ROOT = os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static", "media")
-# MEDIA_ROOT = os.path.join(BASE_DIR, "market_place", "market_place", "templates", "static", "media")
 
 STATIC_URL = "/static/"
 
