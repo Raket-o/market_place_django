@@ -25,7 +25,7 @@ class BasketListView(View):
             "total_price": total_price,
         }
         context.update(CATER_GROUP_NAV)
-        response = render(request, 'basket_products_list.html', context=context)
+        response = render(request, "basket_products_list.html", context=context)
         return response
 
 
@@ -35,7 +35,7 @@ class Confirm(View):
             "name_page": "Удалить",
         }
         context.update(CATER_GROUP_NAV)
-        response = render(request, 'basket_confirm.html', context=context)
+        response = render(request, "basket_confirm.html", context=context)
         return response
 
     def post(self, request: HttpRequest, product_ind: int) -> HttpResponse:
@@ -57,7 +57,7 @@ class Confirm(View):
             "total_price": total_price,
         }
         context.update(CATER_GROUP_NAV)
-        response = render(request, 'basket_products_list.html', context=context)
+        response = render(request, "basket_products_list.html", context=context)
         products_id = " ".join(product_id_list)
         response.set_cookie(key="basket", value=products_id, max_age=live_cookies)
         return response

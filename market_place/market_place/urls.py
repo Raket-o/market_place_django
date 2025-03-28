@@ -16,31 +16,32 @@
 # """
 
 from django.conf import settings
+
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import include, path, re_path
+from django.views.static import serve
 
 
 urlpatterns = [
+    path("", include("shop.urls")),
+    path("orders/", include("order.urls")),
+    path("baskets/", include("basket.urls")),
+    path("auth/", include("authorization.urls")),
     path("admin/", admin.site.urls),
-    path("", include('shop.urls')),
-    path("auth/", include('authorization.urls')),
-    path("baskets/", include('basket.urls')),
-    path("orders/", include('order.urls')),
 ]
 
 if settings.DEBUG:
-    urlpatterns.extend(
-        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    )
-
-    urlpatterns.extend(
-        static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    )
-
+    urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+    urlpatterns.extend(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
     urlpatterns.append(
-        path('__debug__/', include('debug_toolbar.urls')),
+        path("__debug__/", include("debug_toolbar.urls")),
     )
 
     urlpatterns += staticfiles_urlpatterns()
+
+else:
+    urlpatterns += (
+        re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
+    )

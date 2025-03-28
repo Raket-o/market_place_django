@@ -5,6 +5,8 @@ postgres/
 .idea/
 contract.txt
 upload/
+market_place/media/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -114,7 +116,7 @@ ENV/
 
 .DS_Store
 *.sqlite3
-media/
+market_place/static/media/
 *.pyc
 *.db
 *.pid

@@ -28,8 +28,7 @@ class OrderListView(UserPassesTestMixin, View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         queryset = (
-            Order.objects
-            .filter(user_id=self.request.user.pk)
+            Order.objects.filter(user_id=self.request.user.pk)
             .prefetch_related("status")
             .order_by("-created_at")
         )
@@ -44,7 +43,11 @@ class OrderListView(UserPassesTestMixin, View):
 
 class OrderArrange(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        queryset = (Profile.objects.filter(user_id=self.request.user.pk).prefetch_related("user").first())
+        queryset = (
+            Profile.objects.filter(user_id=self.request.user.pk)
+            .prefetch_related("user")
+            .first()
+        )
 
         value = request.COOKIES.get("basket")
         products_id = f"{value}"
@@ -78,7 +81,7 @@ class OrderArrange(View):
             price = product.price
             size = product.size
             color = product.color
-            photo = f"/static/media/{product.photo}"
+            photo = f"/media/{product.photo}"
             custom_product_class = CustomProductClass(
                 id, name, price, size, color, photo
             )
@@ -89,16 +92,16 @@ class OrderArrange(View):
             user=self.request.user,
             status=status,
             products="|".join(products_list),
-            total_price=total_price
+            total_price=total_price,
         )
         order_obj.save()
         send_message_tg(order_obj.id)
 
         queryset = (
-            Order.objects
-            .filter(user_id=self.request.user.pk)
+            Order.objects.filter(user_id=self.request.user.pk)
             .prefetch_related("status")
-            .order_by("-created_at"))
+            .order_by("-created_at")
+        )
 
         context = {
             "name_page": "Мои заказы",
@@ -107,7 +110,7 @@ class OrderArrange(View):
         }
         context.update(CATER_GROUP_NAV)
         response = render(request, template_name="order_list.html", context=context)
-        response.delete_cookie('basket')
+        response.delete_cookie("basket")
         return response
 
 
@@ -118,7 +121,7 @@ class OrderDetails(UserPassesTestMixin, View):
             return True
 
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        queryset = (Order.objects.filter(id=pk).first())
+        queryset = Order.objects.filter(id=pk).first()
         products_str = str(queryset.products).split("|")
 
         product_list = []

@@ -15,11 +15,7 @@ from env_data import live_cookies
 from django.db.utils import ProgrammingError
 
 try:
-    queryset_group = (
-        Group.objects
-        .prefetch_related("category")
-        .order_by("category")
-    )
+    queryset_group = Group.objects.prefetch_related("category").order_by("category")
 
     category_dict = dict()
     for qr in queryset_group:
@@ -36,10 +32,9 @@ CATER_GROUP_NAV = {"category_dict": category_dict}
 
 class TopSellerProductListView(ListView):
     model = Product
-    template_name = "shop_products_list.html"
+    template_name = "shop_product_list.html"
     queryset = (
-        Product.objects
-        .filter(archived=False)
+        Product.objects.filter(archived=False)
         .prefetch_related("group")
         .order_by("-rating")[:10]
     )
@@ -53,7 +48,7 @@ class TopSellerProductListView(ListView):
 
 class GroupProductListView(ListView):
     model = Product
-    template_name = "shop_products_list.html"
+    template_name = "shop_product_list.html"
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         self.category = kwargs["category"]
@@ -66,7 +61,7 @@ class GroupProductListView(ListView):
             # it's better to do a cheap query than to load the unpaginated
             # queryset in memory.
             if self.get_paginate_by(self.object_list) is not None and hasattr(
-                    self.object_list, "exists"
+                self.object_list, "exists"
             ):
                 is_empty = not self.object_list.exists()
             else:
@@ -110,7 +105,7 @@ class GroupProductListView(ListView):
         product_list = []
         for attrs in results:
             id, name, price, photo_url = attrs
-            photo = Photo(name, f"/static/media/{photo_url}")
+            photo = Photo(name, f"/media/{photo_url}")
             product = Product(id, name, price, photo)
             product_list.append(product)
         return product_list
@@ -147,6 +142,6 @@ class ProductDetailView(View):
             "total_price": total_price,
         }
         context.update(CATER_GROUP_NAV)
-        response = render(request, 'basket_products_list.html', context=context)
+        response = render(request, "basket_products_list.html", context=context)
         response.set_cookie(key="basket", value=products_id, max_age=live_cookies)
         return response

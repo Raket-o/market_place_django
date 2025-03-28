@@ -264,9 +264,13 @@ body {
 }
 
 .catalog_nav a {
-    color: white;
+    /*color: white;*/
     font-weight: bold;
     font-size: 1.2em;
+    background-image: linear-gradient(to left, #ffffff, #d7d7d7);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
 }
 
 .category_group_nav {

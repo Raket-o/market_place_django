@@ -16,22 +16,30 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
-from env_data import db_host, db_name, db_password, db_port, db_user, debug, log_level, url_app
+from env_data import (
+    db_host,
+    db_name,
+    db_password,
+    db_port,
+    db_user,
+    debug,
+    log_level,
+    url_app,
+)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = debug
-DEBUG = os.getenv('DEBUG') != 'False'
+DEBUG = os.getenv("DEBUG") != "False"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -45,16 +53,19 @@ INTERNAL_IPS = [
     "0.0.0.0",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0", "https://192.168.55.5", f"https://{url_app}", "http://192.168.1.127"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://0.0.0.0",
+    "https://192.168.55.5",
+    f"https://{url_app}",
+    "http://192.168.1.127",
+]
 
 if DEBUG:
     import socket
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS.append("10.0.2.2")
-    INTERNAL_IPS.extend(
-        [ip[: ip.rfind(".")] + ".1" for ip in ips]
-    )
+    INTERNAL_IPS.extend([ip[: ip.rfind(".")] + ".1" for ip in ips])
 
 
 # Application definition
@@ -66,7 +77,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "debug_toolbar",
     "whitenoise.runserver_nostatic",
     "authorization.apps.AuthorizationConfig",
@@ -89,12 +99,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "market_place.urls"
 
-TEMPLATES_PATH = [os.path.join(BASE_DIR, "market_place", "templates/")]
+TEMPLATES_PATH = [os.path.join(BASE_DIR, "static/")]
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': TEMPLATES_PATH,
+        "DIRS": TEMPLATES_PATH,
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -114,13 +124,13 @@ WSGI_APPLICATION = "market_place.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': db_name,
-        'USER': db_user,
-        'PASSWORD': db_password,
-        'HOST': db_host,
-        'PORT': db_port,
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": db_name,
+        "USER": db_user,
+        "PASSWORD": db_password,
+        "HOST": db_host,
+        "PORT": db_port,
     }
 }
 
@@ -170,14 +180,15 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, "market_place", "templates", "static")]
-    MEDIA_URL = "/media/"
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, "market_place", "templates", "static")
-    MEDIA_URL = STATIC_URL + "media/"
+MEDIA_URL = "/media/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "market_place", "templates", "static", "media")
+
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 # Default primary key field type
@@ -194,9 +205,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
-    "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.DjangoFilterBackend"
-    ]
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 
@@ -208,24 +217,24 @@ LOGIN_URL = reverse_lazy("authorization:login")
 
 # Logger
 
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'console': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "console": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
         },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console',
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "console",
+            },
         },
-    },
-    'loggers': {
-        '': {
-            'level': log_level,
-            'handlers': ['console'],
+        "loggers": {
+            "": {
+                "level": log_level,
+                "handlers": ["console"],
+            },
         },
-    },
-})
+    }
+)

@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="{% static '/favicon.ico' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" >
     <link rel="stylesheet" href="{% static 'css/left-nav-style.css' %}">
@@ -31,7 +31,7 @@
         <h2 class="catalog_nav">
             Каталог
         </h2>
-        <p class="catalog_nav">
+        <p class="catalog_nav gradient_text">
             <a href="{% url 'shop:top_seller_product' %}">На главную</a>
         </p>
         {% for category, group in category_dict.items %}

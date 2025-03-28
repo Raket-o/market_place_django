@@ -24,7 +24,9 @@ class Group(models.Model):
         ordering = "id", "name"
 
     name = models.CharField(max_length=50, blank=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="names")
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="names"
+    )
 
     def __str__(self):
         return f"Группа= {self.name}, категория={self.category})"
@@ -49,7 +51,9 @@ class Product(models.Model):
     archived = models.BooleanField(default=False)
     group = models.ManyToManyField(Group, related_name="products")
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    photo = models.ImageField(null=True, upload_to=prod_photo_directory_path, blank=False)
+    photo = models.ImageField(
+        null=True, upload_to=prod_photo_directory_path, blank=False
+    )
 
     def __str__(self):
         return self.name

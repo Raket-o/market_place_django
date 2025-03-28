@@ -8,7 +8,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import resolve_url, redirect, render, reverse
-from django.views.generic import CreateView, DetailView, ListView, UpdateView, TemplateView, View
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    ListView,
+    UpdateView,
+    TemplateView,
+    View,
+)
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 
@@ -28,7 +35,7 @@ PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
-    template_name = "authorization/register.html"
+    template_name = "register.html"
     success_url = reverse_lazy("shop:top_seller_product")
 
     def form_valid(self, form):
@@ -70,17 +77,10 @@ class LogoutView(View):
 class UserDetailsView(UserPassesTestMixin, DetailView):
     def test_func(self):
         user = self.request.user
-        return (
-                user.is_superuser
-                or user.is_staff
-                or user.id == self.get_object().pk
-        )
+        return user.is_superuser or user.is_staff or user.id == self.get_object().pk
 
-    template_name = "authorization/profile_details.html"
-    queryset = (
-        User.objects
-        .select_related("profile")
-    )
+    template_name = "profile_details.html"
+    queryset = User.objects.select_related("profile")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -92,16 +92,11 @@ class UserDetailsView(UserPassesTestMixin, DetailView):
 class UserNameUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
-        return (
-                user.is_superuser
-                or user.is_staff
-                or user.id == self.get_object().pk
-
-        )
+        return user.is_superuser or user.is_staff or user.id == self.get_object().pk
 
     model = User
-    fields = 'username',
-    template_name = "authorization/profile_update_form.html"
+    fields = ("username",)
+    template_name = "profile_update_form.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -119,13 +114,13 @@ class ProfileDeliveryAddressUpdateView(UserNameUpdateView):
     def test_func(self):
         user = self.request.user
         return (
-                user.is_superuser
-                or user.is_staff
-                or user.id == self.get_object().user.profile.user.pk
+            user.is_superuser
+            or user.is_staff
+            or user.id == self.get_object().user.profile.user.pk
         )
 
     model = Profile
-    fields = 'delivery_address',
+    fields = ("delivery_address",)
 
     def get_success_url(self):
         return reverse(
@@ -135,7 +130,7 @@ class ProfileDeliveryAddressUpdateView(UserNameUpdateView):
 
 
 class ProfilePhoneUpdateView(ProfileDeliveryAddressUpdateView):
-    fields = 'phone_number',
+    fields = ("phone_number",)
 
     def get_success_url(self):
         return reverse(
@@ -146,17 +141,17 @@ class ProfilePhoneUpdateView(ProfileDeliveryAddressUpdateView):
 
 class UserFirstNameUpdateView(UserNameUpdateView):
     model = User
-    fields = 'first_name',
+    fields = ("first_name",)
 
 
 class UserLastNameUpdateView(UserNameUpdateView):
     model = User
-    fields = 'last_name',
+    fields = ("last_name",)
 
 
 class UserEmailUpdateView(UserNameUpdateView):
     model = User
-    fields = 'email',
+    fields = ("email",)
 
 
 class TelegramRegisterView(View):
@@ -165,7 +160,9 @@ class TelegramRegisterView(View):
         print(type(payload), payload)
 
         first_name = payload.get("first_name")
-        last_name = payload.get("last_name") if payload.get("last_name") else "Не указана"
+        last_name = (
+            payload.get("last_name") if payload.get("last_name") else "Не указана"
+        )
         messanger = payload.get("messanger")
         messanger_id = payload.get("messanger_id")
         password = PWD_CONTEXT.hash(b"messanger_id")
@@ -193,7 +190,6 @@ class TelegramRegisterView(View):
                 print(profile)
                 login(request=request, user=user)
 
-
             except AttributeError as err:
                 user.delete()
                 profile.delete()
@@ -203,8 +199,7 @@ class TelegramRegisterView(View):
             user = user_profile.user
 
         products_list = (
-            Product.objects
-            .filter(archived=False)
+            Product.objects.filter(archived=False)
             .prefetch_related("group")
             .order_by("-rating")[:10]
         )
@@ -216,6 +211,6 @@ class TelegramRegisterView(View):
         }
 
         context.update(CATER_GROUP_NAV)
-        response = render(request, 'shop_products_list.html', context=context)
+        response = render(request, "shop_product_list.html", context=context)
         login(request=request, user=user)
         return response
