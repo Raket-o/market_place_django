@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block name_page %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Имя пользователя</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <br>
+        <div class="flex">
+            <button type="submit" class="btn btn-secondary">Войти</button>
+
+            <a class="margin-left_btn" href={% url 'authorization:register' %}>
+                <button type="button" class="btn btn-primary" style="font-size: 15px;">Регистрация</button>
+            </a>
+        </div>
+    </form>
+{% endblock %}

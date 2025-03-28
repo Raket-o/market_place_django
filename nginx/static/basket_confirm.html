@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block name_page %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="flex">
+        <a href="{% url 'basket:basket' %}">
+            <button class="btn btn-primary">Нет</button>
+        </a>
+         <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+             <button type="submit" class="btn btn-del">Да</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

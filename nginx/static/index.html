@@ -1,0 +1,87 @@
+<!doctype html>
+{% load static %}
+<!--[if lt IE 7 ]> <html class="ie ie6 ie-lt10 ie-lt9 ie-lt8 ie-lt7 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7 ie-lt10 ie-lt9 ie-lt8 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 ie-lt10 ie-lt9 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 ie-lt10 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/left-nav-style.css' %}">
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+    <input type="checkbox" id="nav-toggle" hidden>
+    <nav class="nav">
+        <label for="nav-toggle" class="nav-toggle" onclick></label>
+        <h2 class="catalog_nav">
+            Каталог
+        </h2>
+        <p class="catalog_nav">
+            <a href="{% url 'shop:top_seller_product' %}">На главную</a>
+        </p>
+        {% for category, group in category_dict.items %}
+            <ul>
+                <div class="catalog_nav">{{ category }}</div>
+                <div class="catalog_nav">{{ group.name }}</div>
+                {% for group in group%}
+                    <li><a href={% url 'shop:group_product_list_view' category=category group=group %}>{{ group }}</a>
+                {% endfor %}
+            </ul>
+            <br>
+        {% endfor %}
+
+        <div class="text_nav">
+            <a href="{% url 'basket:basket' %}">Корзина</a>
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="text_nav">
+                <a href="{% url 'authorization:user_details' pk=user.pk %}">Профиль</a>
+                <a href="{% url 'order:order_list' %}">Мои заказы</a>
+                <a href="{% url 'authorization:logout' %}">Выйти</a>
+            </div>
+        {% else %}
+            <div class="text_nav">
+                <a href="{% url 'authorization:login' %}">Войти</a>
+            </div>
+        {% endif %}
+    </nav>
+
+    <main role="main">
+        <article>
+            <header>
+            </header>
+                <div class="indent_container">
+                    <p class="text_name_page">
+                        {% block name_page %}
+                        {% endblock %}
+                    </p>
+
+
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            <hr>
+
+            <footer>
+            </footer>
+        </article>
+    </main>
+</body>
+
+</html>

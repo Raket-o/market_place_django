@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block name_page %}
+    {{ name_page.title }}
+{% endblock %}
+
+{% block content %}
+    {% for order in object_list %}
+        <a class="list_product" href={% url 'order:order_details' pk=order.id%}>
+            <img class="img_product" width="40" src="/static/photo_order.jpg" alt="photo_order" >
+            <div class="info_product block_custom">
+                <div>
+                    № {{ order.id }}
+                </div>
+                <div style="display: flex">
+                    <div>
+                        Статус:
+                    </div>
+                    <div style="margin-left: 5px;">
+                        {% if order.status.name == 'Вручено' %}
+                            <div style="color: green;">
+                               {{ order.status }}
+                           </div>
+                        {% elif order.status.name == 'Сбой' %}
+                            <div style="color: red;">
+                               {{ order.status }}
+                           </div>
+                        {% elif order.status.name == 'Отменён' %}
+                            <div style="color: black;">
+                               {{ order.status }}
+                           </div>
+                        {% else %}
+                            <div style="color: #abab00;">
+                               {{ order.status }}
+                           </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% empty %} Нет ни одного заказ
+    {% endfor %}
+{% endblock %}

@@ -35,6 +35,7 @@ DEBUG = os.getenv('DEBUG') != 'False'
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
+    "192.168.55.5",
     "0.0.0.0",
     url_app,
 ]
@@ -44,7 +45,7 @@ INTERNAL_IPS = [
     "0.0.0.0",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0", f"https://{url_app}"]
+CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0", "https://192.168.55.5", f"https://{url_app}", "http://192.168.1.127"]
 
 if DEBUG:
     import socket

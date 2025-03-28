@@ -46,7 +46,10 @@ services:
     depends_on:
       - django
     volumes:
-      - ./market_place/market_place/templates/static/:/static
+#      - ./market_place/market_place/templates/static/:/static
+      - ./market_place/market_place/templates/static/media/:/static/media/
+#      - ./market_place/market_place/templates/static/media/:/static/media/media/
+      - ./nginx/static/:/static/
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
