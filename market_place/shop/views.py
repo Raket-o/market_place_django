@@ -46,7 +46,7 @@ class TopSellerProductListView(ListView):
 class GroupProductListView(ListView):
     model = Product
     template_name = "shop_product_list.html"
-    paginate_by = 1
+    paginate_by = 10
 
     def get_paginate_by(self, queryset):
         """
