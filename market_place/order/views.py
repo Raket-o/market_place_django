@@ -2,14 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, reverse
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-    View,
-)
+from django.views.generic import ListView, View
 
 from .models import Order, CustomProductClass, Status
 from .utils import send_message_tg
@@ -20,25 +13,58 @@ from shop.models import Product
 from shop.views import CATER_GROUP_NAV
 
 
-class OrderListView(UserPassesTestMixin, View):
+class OrderListView(UserPassesTestMixin, ListView):
+    model = Order
+    template_name = "order_list.html"
+    paginate_by = 10
+
     def test_func(self) -> bool:
         user = self.request.user
         if user.is_staff or user.is_authenticated:
             return True
 
-    def get(self, request: HttpRequest) -> HttpResponse:
-        queryset = (
+    def get_paginate_by(self, queryset):
+        """
+        Paginate by specified value in querystring, or use default class property value.
+        """
+        return self.request.GET.get("paginate_by", self.paginate_by)
+
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        self.object_list = self.get_queryset()
+        allow_empty = self.get_allow_empty()
+
+        if not allow_empty:
+            # When pagination is enabled and object_list is a queryset,
+            # it's better to do a cheap query than to load the unpaginated
+            # queryset in memory.
+            if self.get_paginate_by(self.object_list) is not None and hasattr(
+                self.object_list, "exists"
+            ):
+                is_empty = not self.object_list.exists()
+            else:
+                is_empty = not self.object_list
+            if is_empty:
+                raise Http404(
+                    _("Empty list and “%(class_name)s.allow_empty” is False.")
+                    % {
+                        "class_name": self.__class__.__name__,
+                    }
+                )
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+    def get_queryset(self) -> list[Product]:
+        return (
             Order.objects.filter(user_id=self.request.user.pk)
             .prefetch_related("status")
             .order_by("-created_at")
         )
-        context = {
-            "name_page": "Мои заказы",
-            "object_list": queryset,
-        }
-        context.update(CATER_GROUP_NAV)
 
-        return render(request, template_name="order_list.html", context=context)
+    def get_context_data(self, **kwargs) -> dict:
+        context = super(ListView, self).get_context_data(**kwargs)
+        context.update(CATER_GROUP_NAV)
+        context.update({"name_page": "Мои заказы"})
+        return context
 
 
 class OrderArrange(View):

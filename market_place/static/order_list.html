@@ -44,4 +44,28 @@
         </a>
         {% empty %} Нет ни одного заказ
     {% endfor %}
+
+    {% if is_paginated %}
+        <div style="margin: 5px 10px; text-align: center;">
+            {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </div>
+        <div class="area_pagination">
+
+            {% if page_obj.has_previous %}
+                <div>
+                    <a href="?page={{ page_obj.previous_page_number }}">
+                        <button type="submit" class="btn btn-secondary"> <<< </button>
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <div>
+                    <a href="?page={{ page_obj.next_page_number }}">
+                        <button type="submit" class="btn btn-secondary"> >>> </button>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
