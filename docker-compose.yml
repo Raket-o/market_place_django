@@ -20,40 +20,40 @@ services:
       market_place_network:
         ipv4_address: 192.168.55.4
 
-  django:
-    build: .
-    container_name: django
-    command: bash -c "
-      python manage.py migrate
-      && python manage.py 1_add_superuser
-      && python manage.py 2_add_status_order
-      && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
-      "
-    volumes:
-      - ./market_place/media/:/market_place/media/
-    restart: unless-stopped
-    depends_on:
-      - postgres_db
-    ports:
-      - "8080:8080"
-    networks:
-      market_place_network:
-        ipv4_address: 192.168.55.5
-
-  nginx:
-    container_name: "nginx"
-    image: nginx:alpine
-    depends_on:
-      - django
-    volumes:
-      - ./market_place/static/:/static
-      - ./market_place/media/:/media
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-    networks:
-      market_place_network:
-        ipv4_address: 192.168.55.6
+#  django:
+#    build: .
+#    container_name: django
+#    command: bash -c "
+#      python manage.py migrate
+#      && python manage.py 1_add_superuser
+#      && python manage.py 2_add_status_order
+#      && gunicorn market_place.wsgi:application --bind "0.0.0.0:8080" --workers 3
+#      "
+#    volumes:
+#      - ./market_place/media/:/market_place/media/
+#    restart: unless-stopped
+#    depends_on:
+#      - postgres_db
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      market_place_network:
+#        ipv4_address: 192.168.55.5
+#
+#  nginx:
+#    container_name: "nginx"
+#    image: nginx:alpine
+#    depends_on:
+#      - django
+#    volumes:
+#      - ./market_place/static/:/static
+#      - ./market_place/media/:/media
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#    ports:
+#      - "80:80"
+#    networks:
+#      market_place_network:
+#        ipv4_address: 192.168.55.6
 
 networks:
   market_place_network:

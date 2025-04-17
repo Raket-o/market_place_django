@@ -297,3 +297,17 @@ input, textarea, select {
     border-radius: 10px;
     background-color: white;
 }
+
+.area_pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.area_pagination div {
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+}

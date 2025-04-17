@@ -12,7 +12,6 @@
     {% for product in object_list %}
         <a class="list_product" href={% url 'shop:product_details' pk=product.id%}>
             <img class="img_product" src="{{ product.photo.url }}" width="65" alt="{{ product.photo.name }}" >
-
             <div class="info_product">
                 {{ product.name }}
                 <br>
@@ -20,4 +19,86 @@
             </div>
         </a>
     {% endfor %}
+
+{#    <form action="." method="get">#}
+{#    <form action="." method="get">#}
+{#        <select name="paginate_by">#}
+{#            <option>1</option>#}
+{#            <option>2</option>#}
+{#            <option>3</option>#}
+{#            <option>100</option>#}
+{#        </select>#}
+{#        <button type="submit" name="submit" />submit</button>#}
+{#    <button onclick="uploader()">Click</button>#}
+{#    </form>#}
+
+{#    {% if is_paginated %}#}
+{#        <div class="content_detail__pagination cdp" actpage="1">#}
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?paginate_by={{ page_obj.next_page_number }}">Ещё</a>#}
+{#            <a href="?paginate_by={{ page_obj.paginator.num_pages + 1 }}">Ещё</a>#}
+{#        {% endif %}#}
+{#        ==={{ paginate_by }}===#}
+{#                <a href="#!-1" class="cdp_i">prev</a>#}
+{#                <a href="?page=1" class="cdp_i">1</a>#}
+{#                <a href="?paginate_by=1" class="cdp_i">1</a>#}
+{##}
+    {#			<a href="#!1" class="cdp_i">1</a>#}
+{#                <a href="?paginate_by=-1" class="cdp_i">-2</a>#}
+{#                <a href="?page=2" class="cdp_i">2</a>#}
+{#                <a href="?paginate_by=2" class="cdp_i">2</a>#}
+{#                <a href="#!+1" class="cdp_i">next</a>#}
+{#            </div>#}
+
+
+{#            <div>#}
+    {#            {{ page_obj|render_paginator }}#}
+{#                {{ page_obj }}#}
+{#            </div>#}
+
+{#            {% for i in page_obj %}#}
+{#                {{ i.page }}#}
+{#            {% endfor %}#}
+    {% if is_paginated %}
+{#        <div style="text-align: center; color: #7070ff">#}
+{#        <div class="pagination p8">#}
+        <div class="area_pagination">
+{#        <div class="list_product">#}
+{#        <ul>#}
+            {% if page_obj.has_previous %}
+{#                      <ul>#}
+                <div>
+{#                <a style="color: #7070ff" href="?page={{ page_obj.previous_page_number }}"> <<< </a>#}
+{#                <a class="p8" href="?page={{ page_obj.previous_page_number }}"> <<< </a>#}
+                    <a href="?page={{ page_obj.previous_page_number }}"> <<< </a>
+                </div>
+            {% endif %}
+
+            <div>
+{#            <span>{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>#}
+                {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </div>
+
+            {% if page_obj.has_next %}
+                <div>
+{#                <a style="color: #7070ff" href="?page={{ page_obj.next_page_number }}"> >>> </a>#}
+{#                <a class="p8 is-active" href="?page={{ page_obj.next_page_number }}"> >>> </a>#}
+                    <a href="?page={{ page_obj.next_page_number }}"> >>> </a>
+                </div>
+            {% endif %}
+{#              </ul>#}
+{#        </ul>#}
+        </div>
+    {% endif %}
+
+{#    <div class="pagination p8">#}
+{#      <ul>#}
+{#        <a class="is-active" href="#"><li><</li></a>#}
+{#        <a href="#"><li>></li></a>#}
+{#      </ul>#}
+{#    </div>#}
+
+
+
+
 {% endblock %}

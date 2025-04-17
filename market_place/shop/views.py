@@ -49,6 +49,13 @@ class TopSellerProductListView(ListView):
 class GroupProductListView(ListView):
     model = Product
     template_name = "shop_product_list.html"
+    paginate_by = 10
+
+    def get_paginate_by(self, queryset):
+        """
+        Paginate by specified value in querystring, or use default class property value.
+        """
+        return self.request.GET.get("paginate_by", self.paginate_by)
 
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         self.category = kwargs["category"]
@@ -77,7 +84,7 @@ class GroupProductListView(ListView):
         return self.render_to_response(context)
 
     def get_queryset(self) -> list[Product]:
-        sql_query = f"""
+        self.sql_query = f"""
         SELECT sp.id, sp.name, sp.price, sp.photo
         FROM shop_product as sp
         JOIN shop_product_group spg on sp.id = spg.product_id
@@ -87,7 +94,7 @@ class GroupProductListView(ListView):
             """
 
         with connection.cursor() as cursor:
-            cursor.execute(sql_query)
+            cursor.execute(self.sql_query)
             results = cursor.fetchall()
 
         class Photo:
